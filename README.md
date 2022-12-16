@@ -8,6 +8,11 @@ It is the goal of my project to build a predictive model that accurately prices 
 - Consumer perspective: what negotiated price can I get?
 - Dealer perspective: what price to list to meet certain profit margin?
 
+## Deadlines
+- Project Proposal - Jan 9
+- Project Work - Apr 15
+- Presentation/Paper/Blog - May 4
+
 ## Notes
 - [Data Collection](data_collection.md)
 

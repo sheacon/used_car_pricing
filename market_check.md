@@ -23,8 +23,8 @@ RecurrentAuto
 Cross Sale / Cross Sell - Dealer Management System
 	www.cross-sell.com/contact
 
-** Reference that explains DOM fields and how those are calculated:
+Reference that explains DOM fields and how those are calculated:
 https://storage.googleapis.com/marketcheck-sample-feeds/Days_on_Market(DOM).pptx"
-* References that explain various date fields:
+References that explain various date fields:
 https://storage.googleapis.com/marketcheck-sample-feeds/dates_in_mc_feed.pptx  
 https://medium.com/marketcheck-apis/marketcheck-api-listing-dates-explained-ec67477ee800"

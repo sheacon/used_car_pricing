@@ -8,3 +8,8 @@ It is the goal of my project to build a predictive model that accurately prices 
 ## Meeting Notes
 - [MarketCheck](market_check.md)
 - [Cross-Sell](cross_sell.md)
+
+## References
+- Python Data Science Handbook
+- Python for Data Analysis
+- Hands-On Machine Learning with Scikit-Learn

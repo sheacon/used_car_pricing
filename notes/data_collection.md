@@ -40,18 +40,18 @@ Cross-Sell.com
 ## Public Records Data
 
 Texas DMV Records Request
-https://openrecords.txdmv.gov
-https://www.txdmv.gov/sites/default/files/form_files/VTR-275.pdf
-OpenRecords@TxDMV.gov
+- https://openrecords.txdmv.gov
+- https://www.txdmv.gov/sites/default/files/form_files/VTR-275.pdf
+- OpenRecords@TxDMV.gov
 
 Ohio BMV Vehicle Registration Record
-614-752-2055 / 614-752-7752 Record Request Department
-Chief of BMV Records Services
-	jpayne@dps.ohio.gov
-https://bmv.ohio.gov/more-record-types.aspx
-https://publicsafety.ohio.gov/static/bmv1173.pdf
+- 614-752-2055 / 614-752-7752 Record Request Department
+- Chief of BMV Records Services
+	- jpayne@dps.ohio.gov
+- https://bmv.ohio.gov/more-record-types.aspx
+- https://publicsafety.ohio.gov/static/bmv1173.pdf
 
 Virginia DMV
-https://www.dmv.virginia.gov/
-https://www.dmv.virginia.gov/webdoc/pdf/crd93.pdf
+- https://www.dmv.virginia.gov/
+- https://www.dmv.virginia.gov/webdoc/pdf/crd93.pdf
 

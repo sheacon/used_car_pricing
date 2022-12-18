@@ -10,22 +10,26 @@
 ## Public/Free Data: 
 
 US Used cars dataset
-- 3m obs, 66 vars. CarGurus
+- Source: CarGurus.com
+- 3m obs, 66 vars
 - https://www.kaggle.com/datasets/ananaymital/us-used-cars-dataset
 - used_cars_data.csv
 
 Used Cars Dataset
-- 500k obs, 26 vars. Craigslist
+- Source: Craigslist.com
+- 500k obs, 26 vars
 - https://www.kaggle.com/datasets/austinreese/craigslist-carstrucks-data
 - vehicles.csv
 
 Used cars listings for US & Canada
+- MarketCheck.com / Dealer Sites
 - https://www.kaggle.com/datasets/rupeshraundal/marketcheck-automotive-data-us-canada
-- 2.5m obs, 21 vars. All changes. 65k dealer websites / marketcheck.com
+- 2.5m obs, 21 vars. All changes. 65k dealer websites
 - us-dealers-used.csv
 
 Large Car Dataset
-- 5.7m obs, 156 vars. Daily data 1.2k dealers in Illinois / autodealerdata.com
+- AutoDealerData.com / Dealer Sites
+- 2m obs, 156 vars. Daily data 1.2k dealers in Illinois
 - https://www.kaggle.com/datasets/cisautomotiveapi/large-car-dataset
 - CIS_Automotive_Kaggle_Sample.csv
 

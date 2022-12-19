@@ -20,7 +20,4 @@ Other research areas:
 - Project Work - Apr 15
 - Presentation/Paper/Blog - May 4
 
-## References
-- Python Data Science Handbook
-- Python for Data Analysis
-- Hands-On Machine Learning with Scikit-Learn
+

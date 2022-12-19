@@ -6,14 +6,22 @@
 
 The primary goal is to build an accurate pricing model for used cars. Extensive work will be performed in high-quality data collection, feature engineering, and model tuning.
 
+Data:
+- Used car listings scraped from public sites
+- True transactions prices collected from state DMV registrations
+
+Features:
+- Industry and market conditions
+- National and local inventories
+- Variable consumer elasticities
+- External competition
+
 Models:
 - Linear regression baseline
 - XGBoost
 - SAINT
 
-Data:
-- Used car listings scraped from public sites
-- True transactions prices collected from state DMV registrations
+
 
 Other research areas:
 - List prices vs sales prices (negotiation effectiveness)

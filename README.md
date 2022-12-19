@@ -4,7 +4,12 @@
 
 ## Scoping
 
-The primary goal is to build an accurate pricing model for used cars with publicly available information.
+The primary goal is to build an accurate pricing model for used cars with publicly available information. Extensive work will be performed in feature engineering and model tuning.
+
+Models:
+- Linear regression baseline
+- XGBoost
+- SAINT
 
 Other research areas:
 - List prices vs sales prices (negotiation effectiveness)

@@ -14,8 +14,7 @@ It is the goal of my project to build a predictive model that accurately prices 
 
 ## Quick Links
 - [Brightspace](https://brightspace.vanderbilt.edu/d2l/home/396809)
-- [Schedule Blocher Meeting](https://calendly.com/jesse-blocher/)
-- []()
+- [Schedule Advisor Meeting](https://calendly.com/jesse-blocher/)
 
 ## Deadlines
 - Project Proposal - Jan 9

@@ -1,4 +1,8 @@
-# Used Car Predictive Pricing Model
+# Used Car Pricing Model
+
+- This project will fulfill the capstone requirement for graduation from my master's degree program this spring. It is in the early stages of development.
+
+## Scoping
 
 It is the goal of my project to build a predictive model that accurately prices this asset using publicly available information on used car listings and the ultimate sale price as indicated in vehicle registration records.
 

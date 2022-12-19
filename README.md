@@ -1,6 +1,6 @@
 # Used Car Pricing Model
 
-- This project will fulfill the capstone requirement for graduation from my master's degree program this spring. It is in the early stages of development.
+- NOTE: This project will fulfill the capstone requirement for graduation from my master's degree program this spring. It is in the early stages of development.
 
 ## Scoping
 

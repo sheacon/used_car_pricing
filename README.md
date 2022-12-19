@@ -33,8 +33,16 @@ Other research areas:
 - [Schedule Advisor Meeting](https://calendly.com/jesse-blocher/)
 
 ## Deadlines
+
+Syllabus Dates
 - Project Proposal - Jan 9
-- Project Work - Apr 15
-- Presentation/Paper/Blog - May 4
+- Project Work Done / Final Report Draft - Apr 15
+- Presentation Slides / Final Report - May 1
+- Presentation / Paper / Blog - May 4
+
+Brightspace Dates
+- Proposal - Jan 8
+- Final Report Draft - Mar 31
+- Final Report - Apr 25
 
 

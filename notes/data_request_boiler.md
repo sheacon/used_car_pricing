@@ -19,6 +19,20 @@ I would like to submit a FOIA request for relevant records, but first I want to 
 Has your department worked with academic researchers in the past? Is there a good time you'd be willing to discuss on the phone?
 
 Thank You Very Much and Happy Holidays!
-Shea Conaway
-shea.conaway@vanderbilt.edu
-615-648-9176
+
+---
+
+Vehicle registrations for registration years 2018-2022:
+VIN
+Purchase Price
+Odometer/Mileage
+County/City/Zip
+Model Year
+Make
+Model
+Type/Trim (e.g. car, truck, luxury)
+New/Used/Demo
+Date Title Issued
+Date Vehicle Acquired
+Seller Name/County/City/Zip
+Any Notes/Remarks (e.g. "actual mileage", "salvage")

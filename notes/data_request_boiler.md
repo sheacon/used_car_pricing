@@ -6,8 +6,6 @@ Please let me know what other information is needed for this request. Any help y
 
 ---
 
-Hi Ms. Saundra Mastro Jack,
-
 My name is Shea Conaway, and I'm a student at Vanderbilt University doing research for my master's thesis in data science.
 
 My topic compares modelling approaches for estimations of used car prices over time, as well as comparisons between public listings and ultimate transaction price.
@@ -22,17 +20,27 @@ Thank You Very Much and Happy Holidays!
 
 ---
 
-Vehicle registrations for registration years 2018-2022:
-VIN
-Purchase Price
-Odometer/Mileage
-County/City/Zip
-Model Year
-Make
-Model
-Type/Trim (e.g. car, truck, luxury)
-New/Used/Demo
-Date Title Issued
-Date Vehicle Acquired
-Seller Name/County/City/Zip
-Any Notes/Remarks (e.g. "actual mileage", "salvage")
+States:
+- California
+- Florida
+- New York
+- Ohio
+- Tennessee
+- Texas
+- Virginia
+
+Vehicle title/registrations for years 2018-2022:
+Include all available if possible, examples below
+- VIN
+- Purchase Price
+- Odometer/Mileage
+- County/City/Zip
+- Model Year
+- Make
+- Model
+- Type/Trim (e.g. car, truck, luxury)
+- New/Used/Demo
+- Date Title Issued
+- Date Vehicle Acquired
+- Seller Name/County/City/Zip
+- Any Notes/Remarks (e.g. "actual mileage", "salvage")

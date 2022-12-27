@@ -6,7 +6,7 @@ Please let me know what other information is needed for this request. Any help y
 
 ---
 
-My name is Shea Conaway, and I'm a student at Vanderbilt University doing research for my master's thesis in data science.
+I'm a student at Vanderbilt University doing research for my master's thesis in data science.
 
 My topic compares modelling approaches for estimations of used car prices over time, as well as comparisons between public listings and ultimate transaction price.
 

@@ -10,7 +10,7 @@ My name is Shea Conaway, and I'm a student at Vanderbilt University doing resear
 
 My topic compares modelling approaches for estimations of used car prices over time, as well as comparisons between public listings and ultimate transaction price.
 
-To properly conduct my research, I would need data on the actual sales prices of vehicles, and it's my understanding that the best place to get this is from vehicle registrations.
+To properly conduct my research, I would need data on the actual sales prices of vehicles, and it's my understanding that the best place to get this is from vehicle titles/registrations.
 
 I would like to submit a FOIA request for relevant records, but first I want to better understand what data is available and how you prefer to consider such requests.
 

@@ -1,8 +1,9 @@
 [Project Link](https://github.com/users/sheacon/projects/3)
+[Schedule Advisor Meeting](https://calendly.com/jesse-blocher/)
 
 # Used Car Pricing Model
 
-- NOTE: This project will fulfill the capstone requirement for graduation from my master's degree program this spring. It is in the early stages of development.
+- NOTE: This project will fulfill the capstone/thesis requirement for graduation from my master's degree program this spring. It is in the early stages of development.
 
 ## Scoping
 
@@ -23,16 +24,13 @@ Models:
 - XGBoost
 - SAINT
 
-
-
 Other research areas:
 - List prices vs sales prices (negotiation effectiveness)
 - Changes over time, especially given recent disruptions
 - Unique segments
 
 ## Quick Links
-- [Brightspace](https://brightspace.vanderbilt.edu/d2l/home/396809)
-- [Schedule Advisor Meeting](https://calendly.com/jesse-blocher/)
+
 
 ## Deadlines
 

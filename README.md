@@ -13,7 +13,10 @@ Data:
 - Used car listings scraped from public sites
 - True transactions prices collected from state DMV registrations
 
-Dataset Fea
+Dataset Features:
+- Price
+- Car details and options
+- Location
 
 Additionial Engineered Features:
 - Industry and market conditions

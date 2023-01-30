@@ -1,5 +1,6 @@
 - [Project Board](https://github.com/users/sheacon/projects/3)
 - [Schedule Advisor Meeting](https://calendly.com/jesse-blocher/)
+- [Brightspace](https://brightspace.vanderbilt.edu/d2l/home/396809)
 
 # Used Car Pricing Model
 

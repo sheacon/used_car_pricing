@@ -8,6 +8,11 @@
 
 The primary goal is to build an accurate pricing model for used cars. Extensive work will be performed in high-quality data collection, feature engineering, and model tuning.
 
+How does this differ from a [Kaggle used car competition](https://www.kaggle.com/c/1056lab-used-cars-price-prediction)?
+- Big data
+- Accurate pricing
+- More extensive features
+
 Data:
 - Used car listings scraped from public sites
 - True transactions prices collected from state DMV registrations

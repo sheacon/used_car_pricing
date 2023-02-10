@@ -1,0 +1,47 @@
+When the same car is listed on more than one website we try following criteria in order to attribute a car to a dealer. We stop when any criteria is matched.
+
+#1. We look for the following kinds of sections on the VDP page -
+"Transfer" or
+"Available for Transfer from" or
+"This car is located at" or
+"Contact Seller"
+
+These sections generally list the info (name, address and contact no) of the actual dealership / rooftop that has the car physically on their lot (the actual car seller). The more places the car is listed online for sale - the more number of listings we have for it in our active listings database and we attribute the car to the candidate that is being referred the most from various VDPs for the same VIN.
+
+#2. We see with whom the listing is available for a longer period.
+
+say because of the same Ford being available at following rooftops -
+
+Rick Hendrick Kia of Bufford - Listed for 5 days
+Rick Hendrick Ford  - 40 days
+Rick Hendrick Automotive Group - 30 days
+Rick Hendrick Ford of Norfolk - 45 days
+
+It is with "Rick Hendrick Ford of Norfolk" for 45 days - the longest period and at least > 10% of the second longest period, we attribute it to this dealership
+
+If the car is listed for less than 10 days at all sources then we skip this criteria to determine attribution.
+
+#3. We look at the active inventory counts for all dealers where car is listed and attribute the car to the dealer with max number of cars for sale.
+e.g.
+
+A Ford is available at the following 3 places -
+Rick Hendrick of Norfolk - 42 days | 250 cars for sale
+Rick Hendrick of Buford  - 40 days | 260 Cars for sale
+Rick Hendrick Automotive Group - 40 days | 650 Cars for sale
+
+In this case as we cannot attribute the car (and the eventual sale) to any of the dealership here based on #2 - then it gets attached to "Rick Hendrick Automotive Group" as they have the most number of cars for sale amongst the candidates. Generally these are the automotive group home websites where they list inventory from all their different locations. Although, it might not be totally accurate but at least the car is attached to the dealership group and perhaps that is something one cannot easily strike off.
+
+#4. From amongst all dealers advertising the same Car / VIN - we do brand matching in dealership names for attribution.
+e.g A Ford is listed on say the following 3 dealers -
+
+Rick Hendrick Kia of Ford Lauderdale
+Rick Hendrick Ford
+Rick Hendrick Automotive Group
+
+Then we attribute the Ford car to "Rick Hendrick Ford" .
+
+#5. If we still cannot work out a clear winner by using the above steps we then attribute the car to a dealer who has both price and miles listed and amongst them attribute it to the dealer who advertises the lowest price for the car.
+
+#6. If cannot figure out the winner then attribute it to a single listing that has the zip code mostly referred to in car seller info by most number of listings
+
+#7. If you still cannot pick a winner then pick the one with oldest scraped at date

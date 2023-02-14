@@ -29,3 +29,5 @@
 module purge # confirm clean env
 module load GCC/10.2.0 OpenMPI/4.0.5 SciPy-bundle/2020.11 IPython/7.18.1 Spark/2.2.1
 
+# run script
+python 0_process_listings.py

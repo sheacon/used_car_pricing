@@ -1,9 +1,13 @@
-
+import pyspark
+from pyspark import SparkContext
+from pyspark.sql import SparkSession
 from pyspark.sql import Row
 from pyspark.sql.types import *
 
+sc = SparkContext()
+
 # construct spark session instance
-spark = SparkSession.builder \
+spark = SparkSession(sc).builder \
 	.master("local") \
 	.appName("Process Listings") \
 	.config("spark.debug.maxToStringFields", "100") \
@@ -11,6 +15,7 @@ spark = SparkSession.builder \
 
 # file path
 file = '/data/p_dsi/capstone_projects/shea/mc_listings_extract.csv.gz'
+#file = 'hdfs:///user/conawws1/mc_listings_extract.csv.gz'
 
 # define schema
 schema = StructType([

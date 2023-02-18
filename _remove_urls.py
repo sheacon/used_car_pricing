@@ -5,13 +5,13 @@
 import time
 import csv
 
-file_dir = '/data/p_dsi/capstone_projects/shea/
+file_dir = '/data/p_dsi/capstone_projects/shea/'
 file_input = 'mc_listings_extract.csv'
 file_output = 'mc_listings_extract_reduced.csv'
 
 start = time.time()
 
-with open(file_input, 'r') as f_in, open(file_output, 'w') as f_out:
+with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as f_out:
 
     csv_reader = csv.reader(f_in)
     csv_writer = csv.writer(f_out)

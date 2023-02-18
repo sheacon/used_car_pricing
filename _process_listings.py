@@ -1,6 +1,6 @@
 
-# script to remove URLs from listings file
-# test result: reduced file size by 25%
+# script initial process file
+# test result: reduced file size by 27.5%
 
 import time
 import csv
@@ -20,7 +20,9 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
     # header
     header = next(csv_reader)
     del header[67]
+    del header[65]
     del header[3]
+
     csv_writer.writerow(header)
 
 
@@ -38,8 +40,13 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
         # replace photo links with count
         line[66] = line[66].count('|') + 1
 
-        # remove photo_url and more_info
+        # replace options with unique options/features combined
+        combined = '|'.join(list(set(str(line[64]).split('|') + str(line[65]).split('|'))))
+        line[64] = combined
+
+        # remove photo_url, more_info, and features
         del line[67]
+        del line[65]
         del line[3]
         
         # write line

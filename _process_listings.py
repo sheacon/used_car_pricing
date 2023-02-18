@@ -1,9 +1,10 @@
 
 # script initial process file
-# test result: reduced file size by 27.5%
+# test result: reduced file size by 41%
 
 import time
 import csv
+import json
 
 file_dir = '/data/p_dsi/capstone_projects/shea/'
 file_input = 'mc_listings_extract.csv'
@@ -59,6 +60,17 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
         combined = '|'.join(list(set(str(line[64]).split('|') + str(line[65]).split('|'))))
         line[64] = combined
 
+
+        # translate nest json to compact dict
+        if line[86]:
+            hvf_items = json.loads(line[86])
+            options = {'Standard': {}, 'Optional': {}}
+            for item in hvf_items:
+                if item['category'] not in options[item['type']]:
+                    options[item['type']][item['category']] = []
+                options[item['type']][item['category']].append(item['description'])
+            line[86] = str(options)
+
         # remove photo_url, more_info, and features
         del line[85] # in_transit_days
         del line[84] # in_transit_at
@@ -83,4 +95,4 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
 
 # print final line count and processing time
     print(f'{i:,}')
-    print(round((time.time() - start)/60,2))
+    print(round((time.time() - start),5))

@@ -19,9 +19,24 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
 
     # header
     header = next(csv_reader)
-    del header[67]
-    del header[65]
-    del header[3]
+    
+    del header[85] # in_transit_days
+    del header[84] # in_transit_at
+    del header[83] # in_transit
+    del header[67] # photo url
+    del header[65] # features
+    del header[57] # car_street
+    del header[56] # car_address
+    del header[53] # inventory_type (all used)
+    del header[52] # listing_type (all dealer)
+    del header[51] # seller_type (all dealer)
+    del header[50] # seller_email
+    del header[49] # seller_phone
+    del header[48] # country (all US)
+    del header[42] # street
+    del header[39] # dealer_id
+    del header[35] # model_code
+    del header[3] # more_info
 
     csv_writer.writerow(header)
 
@@ -45,9 +60,23 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
         line[64] = combined
 
         # remove photo_url, more_info, and features
-        del line[67]
-        del line[65]
-        del line[3]
+        del line[85] # in_transit_days
+        del line[84] # in_transit_at
+        del line[83] # in_transit
+        del line[67] # photo url
+        del line[65] # features
+        del line[57] # car_street
+        del line[56] # car_address
+        del line[53] # inventory_type (all used)
+        del line[52] # listing_type (all dealer)
+        del line[51] # seller_type (all dealer)
+        del line[50] # seller_email
+        del line[49] # seller_phone
+        del line[48] # country (all US)
+        del line[42] # street
+        del line[39] # dealer_id
+        del line[35] # model_code
+        del line[3] # more_info
         
         # write line
         csv_writer.writerow(line)

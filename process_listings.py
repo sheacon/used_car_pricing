@@ -2,13 +2,18 @@
 # script initial process file
 # test result: reduced file size by 41%
 
+import sys
 import time
 import csv
 import json
 
+# settings
+#script_name = sys.argv[0]
+#num_jobs = int(sys.argv[1])
+
 file_dir = '/data/p_dsi/capstone_projects/shea/'
-file_input = 'mc_listings_extract.csv'
-file_output = 'mc_listings_extract_reduced.csv'
+file_input = 'mc_listings.csv'
+file_output = 'mc_listings_reduced_test.csv'
 
 start = time.time()
 
@@ -92,6 +97,8 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
         
         # write line
         csv_writer.writerow(line)
+
+        if i == 245_000: break
 
 # print final line count and processing time
     print(f'{i:,}')

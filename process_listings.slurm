@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #### Job Name ####
-#SBATCH --job-name=example
+#SBATCH --job-name=process_listings_test
 
 #### Account and Partition ####
 #SBATCH --account=p_dsi
@@ -28,6 +28,6 @@
 
 # accre packages
 module purge # confirm clean env
-#module restore bigdata
+module load GCC/10.2.0 OpenMPI/4.0.5 SciPy-bundle/2020.11 IPython/7.18.1
 
-echo 'Hello World!'
+python process_listings.py

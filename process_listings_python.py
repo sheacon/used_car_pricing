@@ -61,7 +61,7 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
         del header[85] # in_transit_days
         del header[84] # in_transit_at
         del header[83] # in_transit
-        del header[67] # photo url
+        del header[67] # photo_url
         del header[65] # features
         del header[57] # car_street
         del header[56] # car_address

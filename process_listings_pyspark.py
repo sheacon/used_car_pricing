@@ -1,11 +1,11 @@
 
+sc = SparkContext()
+
 import pyspark
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
 from pyspark.sql.types import *
-
-sc = SparkContext()
 
 # construct spark session instance
 spark = SparkSession(sc).builder \
@@ -15,8 +15,8 @@ spark = SparkSession(sc).builder \
     .getOrCreate()
 
 # file path
-#file = '/data/p_dsi/capstone_projects/shea/mc_listings_extract.csv.gz'
-file = 'hdfs:///user/conawws1/mc_listings_extract.csv.gz'
+file = '/data/p_dsi/capstone_projects/shea/mc_listings_extract.csv.gz'
+line_limit = 1000 # restrict number of lines read and processed
 
 # define schema
 schema = StructType([
@@ -110,35 +110,85 @@ schema = StructType([
     ])
 
 # read csv
-df = spark.read.csv(file, schema = schema, sep = ',', quote = '"')
-## PARSING PROBLEM, need to use quotations as field delimiter
-    # example vins (1C6RR6YT5JS119710, 4T1B11HK2KU777711)
+df = spark.read.csv(file, schema = schema, header = True, sep = ',', quote = '"', escape='"').limit(line_limit)
 
 # size
 print((df.count(), len(df.columns)))
 
 # preview
-df.take(5)
+#df.take(5)
 
-# confirm 
-df.printSchema()
+from pyspark.sql.functions import col, size, split, isnull, udf, length, regexp_replace
+import json
 
-from pyspark.sql.functions import col, size, split, isnull
+# parse high value features from nested json to compact dictionary
+def hvf_parse(hvf_field):
+    if hvf_field:
+        hvf_items = json.loads(hvf_field)
+        options = {'Standard': {}, 'Optional': {}}
+        for item in hvf_items:
+            if item['category'] not in options[item['type']]:
+                options[item['type']][item['category']] = []
+            options[item['type']][item['category']].append(item['description'])
+        hvf_field = str(options)
+    return hvf_field
 
-df2 = (df
-        .drop('more_info') # drop listing url
-        .withColumn('photo_links_count', size(split(col('photo_links'), r'\|'))) # count photo links
-        .drop('photo_links') # drop photo links
-        .replace(-1,0,'photo_links_count') # fix count for NAs
-        .withColumn('photo_main', ~isnull(col('photo_url')))
-        )
-#       .sample(fraction = 0.01, withReplacement = False)
+# convert to udf
+hvf_parse_udf = udf(hvf_parse, StringType())
 
+# compile all options
+def total_options(options, features):
+    combined = '|'.join(list(set(str(options).split('|') + str(features).split('|'))))
+    return combined
 
-df2.select('vin','photo_url','photo_main').take(10)
+# convert to udf
+total_options_udf = udf(total_options, StringType())
 
+preview_cols = ['vin','photo_links_count', 'hvf_parsed']
 
-df2.where("vin == '1C6RR6YT5JS119710'").select(['vin','dom']).show()
+drop_cols = ['more_info'
+            ,'model_code'
+            ,'dealer_id'
+            ,'street'
+            ,'country'
+            ,'seller_phone'
+            ,'seller_email'
+            ,'seller_type'
+            ,'listing_type'
+            ,'inventory_type'
+            ,'car_address'
+            ,'car_street'
+            ,'options'
+            ,'features'
+            ,'photo_links'
+            ,'photo_url'
+            ,'in_transit'
+            ,'in_transit_at'
+            ,'in_transit_days'
+            ,'high_value_features'
+            ]
+
+(df
+    # photo links handling
+    .withColumn('photo_links_count', size(split(col('photo_links'), r'\|'))) # count photo links
+    .replace(0,1,'photo_links_count') # fix count for single photos
+    .replace(-1,0,'photo_links_count') # fix count for NAs
+
+    # main photo handling
+    .withColumn('photo_main', ~isnull(col('photo_url')))
+
+    # hvf
+    .withColumn('hvf_parsed',hvf_parse_udf(col('high_value_features')))
+
+    # combined options
+    .withColumn('total_options',total_options_udf(col('options'),col('features')))
+
+    # unneded columns
+    .drop(*drop_cols)
+
+    .select(preview_cols).sample(fraction=0.05).show()
+    )
+
 
 sc.stop()
 

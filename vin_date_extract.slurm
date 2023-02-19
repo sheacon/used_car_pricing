@@ -27,7 +27,12 @@
 #SBATCH --mail-type=ALL
 
 INPUT_FILE=/data/p_dsi/capstone_projects/shea/mc_listings.csv
-OUTPUT_FILE=/scratch/conawws1/vin_date_extract.csv
-MAX_LINE_LEN=9223372036854775807
+OUTPUT_FILE=/scratch/conawws1/line_check.csv
+MAX_FIELD_LEN=9223372036854775807
 
-csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z $MAX_LINE_LEN $INPUT_FILE > $OUTPUT_FILE
+csvclean -n -z $MAX_FIELD_LEN > OUTPUT_FILE
+#csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z $MAX_FIELD_LEN $INPUT_FILE > $OUTPUT_FILE
+
+# error
+# Error: line contains NULL byte
+# line 77,744,993 +/-

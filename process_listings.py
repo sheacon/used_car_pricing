@@ -8,6 +8,8 @@ import csv
 import json
 from itertools import islice
 
+csv.field_size_limit(sys.maxsize)
+
 # settings
 #script_name = sys.argv[0]
 num_lines = int(sys.argv[1]) # number of lines to process

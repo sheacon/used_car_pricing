@@ -15,8 +15,8 @@ num_jobs = int(sys.argv[2]) # how many jobs it's split into
 this_job = int(sys.argv[3]) # which job number this run is
 
 file_dir = '/data/p_dsi/capstone_projects/shea/'
-file_input = 'mc_listings_extract.csv'
-file_output = 'mc_listings_extract_reduced_test'+ str(this_job) +'.csv'
+file_input = 'mc_listings.csv'
+file_output = 'processed/mc_listings_'+ str(this_job) +'.csv'
 
 # lines to process calculation
 def split_file_lines(num_lines, num_pieces):

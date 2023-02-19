@@ -6,14 +6,37 @@ import sys
 import time
 import csv
 import json
+from itertools import islice
 
 # settings
 #script_name = sys.argv[0]
-#num_jobs = int(sys.argv[1])
+num_lines = int(sys.argv[1]) # number of lines to process
+num_jobs = int(sys.argv[2]) # how many jobs it's split into
+this_job = int(sys.argv[3]) # which job number this run is
 
 file_dir = '/data/p_dsi/capstone_projects/shea/'
-file_input = 'mc_listings.csv'
-file_output = 'mc_listings_reduced_test.csv'
+file_input = 'mc_listings_extract.csv'
+file_output = 'mc_listings_extract_reduced_test'+ str(this_job) +'.csv'
+
+# lines to process calculation
+def split_file_lines(num_lines, num_pieces):
+    indexes_per_piece = num_lines // num_pieces
+    remaining_indexes = num_lines % num_pieces
+    ranges = []
+    current_index = 0
+    for i in range(num_pieces):
+        if i < remaining_indexes:
+            range_end = current_index + indexes_per_piece + 1
+        else:
+            range_end = current_index + indexes_per_piece
+        ranges.append((current_index, range_end))
+        current_index = range_end
+    return ranges
+
+line_ranges = split_file_lines(num_lines, num_jobs)
+
+start_line,end_line = line_ranges[this_job]
+
 
 start = time.time()
 
@@ -22,32 +45,36 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
     csv_reader = csv.reader(f_in)
     csv_writer = csv.writer(f_out)
 
-
-    # header
-    header = next(csv_reader)
-    
-    del header[85] # in_transit_days
-    del header[84] # in_transit_at
-    del header[83] # in_transit
-    del header[67] # photo url
-    del header[65] # features
-    del header[57] # car_street
-    del header[56] # car_address
-    del header[53] # inventory_type (all used)
-    del header[52] # listing_type (all dealer)
-    del header[51] # seller_type (all dealer)
-    del header[50] # seller_email
-    del header[49] # seller_phone
-    del header[48] # country (all US)
-    del header[42] # street
-    del header[39] # dealer_id
-    del header[35] # model_code
-    del header[3] # more_info
-
-    csv_writer.writerow(header)
-
-
     i = 0
+
+    csv_reader = islice(csv_reader, start_line, end_line) # skip x number, stop at y number
+
+    if this_job == 0:
+
+        i += 1
+
+        # header
+        header = next(csv_reader)
+        
+        del header[85] # in_transit_days
+        del header[84] # in_transit_at
+        del header[83] # in_transit
+        del header[67] # photo url
+        del header[65] # features
+        del header[57] # car_street
+        del header[56] # car_address
+        del header[53] # inventory_type (all used)
+        del header[52] # listing_type (all dealer)
+        del header[51] # seller_type (all dealer)
+        del header[50] # seller_email
+        del header[49] # seller_phone
+        del header[48] # country (all US)
+        del header[42] # street
+        del header[39] # dealer_id
+        del header[35] # model_code
+        del header[3] # more_info
+
+        csv_writer.writerow(header)
 
     for line in csv_reader:
 
@@ -98,7 +125,7 @@ with open(file_dir+file_input, 'r') as f_in, open(file_dir+file_output, 'w') as 
         # write line
         csv_writer.writerow(line)
 
-        if i == 245_000: break
+        #if i == 245_000: break
 
 # print final line count and processing time
     print(f'{i:,}')

@@ -10,10 +10,10 @@
 #### Resources Required ####
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --constraint=skylake
-#SBATCH --mem=8G
-#SBATCH --time=01:30:00
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=4G
+#SBATCH --time=00:01:00
+#SBATCH --array=0-127%32
 
 #### Environment Related ####
 #SBATCH --export=ALL
@@ -30,4 +30,4 @@
 module purge # confirm clean env
 module load GCC/10.2.0 OpenMPI/4.0.5 SciPy-bundle/2020.11 IPython/7.18.1
 
-python process_listings.py
+python process_listings.py 2989 128 $SLURM_ARRAY_TASK_ID

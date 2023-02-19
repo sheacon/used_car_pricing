@@ -12,8 +12,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
-#SBATCH --time=24:00:00
-#SBATCH --array=0-127%32
+#SBATCH --time=04:00:00
+#SBATCH --array=0-63%4
+#SBATCH --constraint=skylake|cascadelake
 
 #### Environment Related ####
 #SBATCH --export=ALL
@@ -30,4 +31,5 @@
 module purge # confirm clean env
 module load GCC/10.2.0 OpenMPI/4.0.5 SciPy-bundle/2020.11 IPython/7.18.1
 
-python process_listings.py 224121706 128 $SLURM_ARRAY_TASK_ID
+# args: number of lines to process, number of jobs, specific job call
+python process_listings.py 224121706 64 $SLURM_ARRAY_TASK_ID

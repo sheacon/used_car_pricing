@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #### Job Name ####
-#SBATCH --job-name=example
+#SBATCH --job-name=vin_date_extract
 
 #### Account and Partition ####
 #SBATCH --account=p_dsi
@@ -13,7 +13,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --constraint=skylake|cascadelake
 #SBATCH --mem=8G
-#SBATCH --time=01:30:00
+#SBATCH --time=24:00:00
 
 #### Environment Related ####
 #SBATCH --export=ALL
@@ -26,8 +26,4 @@
 #SBATCH --mail-user=shea.conaway@vanderbilt.edu
 #SBATCH --mail-type=ALL
 
-# accre packages
-module purge # confirm clean env
-#module restore bigdata
-
-echo 'Hello World!'
+csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z 500000 /data/p_dsi/capstone_projects/shea/mc_listings.csv > /scratch/conawws1/vin_date_extract.csv

@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
   summary = wordFrequencies.takeOrdered(100, key = lambda x: -x[1])
 
-  summary.foreach(print)
+  #summary.foreach(print)
 
   # Writes results to file
   summaryRDD = sc.makeRDD(summary, 1)

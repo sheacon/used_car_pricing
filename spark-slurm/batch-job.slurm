@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=spark_test
+#SBATCH --output=%x.out
+#SBATCH --error=%x.err
 
 #SBATCH --ntasks=4
 #SBATCH --cpus-per-task=4
@@ -19,11 +21,11 @@ module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
 # files
-INPUT='README.md'
-OUTPUT='wordcount.txt'
+INPUT="README.md"
+OUTPUT="wordcount.txt"
 
 # python script
-export APP='SimpleApp.py $INPUT $OUTPUT'
+export APP="SimpleApp.py $INPUT $OUTPUT"
 echo $APP
 
 # scratch dir for temp job info

@@ -19,8 +19,8 @@
 #SBATCH --export=ALL
 
 #### Output and Error Information ####
-#SBATCH --output=%x_%j.out
-#SBATCH --error=%x_%j.err
+#SBATCH --output=%x.out
+#SBATCH --error=%x.err
 
 #### Email Notification ####
 #SBATCH --mail-user=shea.conaway@vanderbilt.edu
@@ -31,8 +31,7 @@ OUTPUT_FILE=/scratch/conawws1/line_check.csv
 MAX_FIELD_LEN=9223372036854775807
 
 csvclean -n -z $MAX_FIELD_LEN > OUTPUT_FILE
-#csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z $MAX_FIELD_LEN $INPUT_FILE > $OUTPUT_FILE
 
-# error
+#csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z $MAX_FIELD_LEN $INPUT_FILE > $OUTPUT_FILE
 # Error: line contains NULL byte
 # line 77,744,993 +/-

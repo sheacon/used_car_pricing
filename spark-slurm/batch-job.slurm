@@ -1,17 +1,18 @@
 #!/bin/bash
 
 #SBATCH --job-name=spark_test
-#SBATCH --output=%x.out
-#SBATCH --error=%x.err
-#SBATCH --account=p_dsi
-#SBATCH --partition=production
+
 #SBATCH --ntasks=8
 #SBATCH --cpus-per-task=4
 #SBATCH --time=00:30:00
 #SBATCH --mem-per-cpu=4G
 #SBATCH --constraint=skylake|cascadelake
+
+#SBATCH --account=p_dsi
+#SBATCH --partition=production
 #SBATCH --mail-user=shea.conaway@vanderbilt.edu
 #SBATCH --mail-type=ALL
+#SBATCH --export=ALL
 
 # load modules
 module purge
@@ -60,7 +61,7 @@ cluster_conf+=$"2-$LAST_PROC      ./task-roles.sh WORKER"
 echo -e $cluster_conf > cluster.conf
 
 # run job
-srun -l --multi-prog cluster.conf
+srun -l -o %x-task-%t.out --multi-prog cluster.conf
 
 
 

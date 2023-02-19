@@ -22,10 +22,10 @@ module load GCCcore/.8.2.0 Spark/2.4.0
 
 # files
 INPUT="README.md"
-OUTPUT="wordcount.txt"
+OUTPUT_DIR="wordcount_results"
 
 # python script
-export APP="SimpleApp.py $INPUT $OUTPUT"
+export APP="SimpleApp.py $INPUT $OUTPUT_DIR"
 echo $APP
 
 # scratch dir for temp job info

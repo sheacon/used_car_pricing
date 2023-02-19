@@ -2,6 +2,8 @@
 
 Run Spark jobs on ACCRE's traditional HPC cluster via SLURM.
 
+Adapted from: https://bigdata-vandy.github.io/using-spark-with-gpfs/
+
 ## Description
 
 This directory contains an example Spark job launched through SLURM. The 

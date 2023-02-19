@@ -11,7 +11,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-#SBATCH --constraint=skylake|cascadelake
+#SBATCH --constraint=cascadelake
 #SBATCH --mem=8G
 #SBATCH --time=24:00:00
 
@@ -26,4 +26,8 @@
 #SBATCH --mail-user=shea.conaway@vanderbilt.edu
 #SBATCH --mail-type=ALL
 
-csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z 500000 /data/p_dsi/capstone_projects/shea/mc_listings.csv > /scratch/conawws1/vin_date_extract.csv
+INPUT_FILE=/data/p_dsi/capstone_projects/shea/mc_listings.csv
+OUTPUT_FILE=/scratch/conawws1/vin_date_extract.csv
+MAX_LINE_LEN=9223372036854775807
+
+csvcut -c vin,scraped_at,status_date,first_scraped_at -l -z $MAX_LINE_LEN $INPUT_FILE > $OUTPUT_FILE

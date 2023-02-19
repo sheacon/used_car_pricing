@@ -29,6 +29,7 @@ export NWORKERS=$(( $SLURM_NTASKS - 2 ))
 export LAST_PROC=$(( $SLURM_NTASKS - 1 ))
 
 # Set Spark environment variables
+export SPARK_HOME=/accre/arch/easybuild/software/Compiler/GCCcore/8.2.0/Spark/2.4.0
 export SPARK_MASTER_PORT=7077
 export SPARK_MASTER_WEBUI_PORT=8080
 export SPARK_DAEMON_MEMORY=1g
@@ -36,6 +37,7 @@ export SPARK_WORKER_CORES=$SLURM_CPUS_PER_TASK
 export SPARK_WORKER_MEMORY=$(( SLURM_MEM_PER_CPU * $SLURM_CPUS_PER_TASK - 1000))m
 export SPARK_EXECUTOR_CORES=$SLURM_CPUS_PER_TASK
 export SPARK_EXECUTOR_MEMORY=$SPARK_WORKER_MEMORY
+
 
 # Load the Spark package
 module load GCCcore/.8.2.0 Spark/2.4.0

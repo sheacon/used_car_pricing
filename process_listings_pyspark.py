@@ -1,11 +1,10 @@
-
-sc = SparkContext()
-
 import pyspark
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
 from pyspark.sql.types import *
+
+sc = SparkContext()
 
 # construct spark session instance
 spark = SparkSession(sc).builder \

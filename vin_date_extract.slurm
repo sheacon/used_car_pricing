@@ -31,7 +31,7 @@ MAX_FIELD_LEN=9223372036854775807
 INPUT_FILE=/data/p_dsi/capstone_projects/shea/mc_listings.csv
 OUTPUT_FILE=line_check.csv
 
-csvclean -n -z $MAX_FIELD_LEN > OUTPUT_FILE
+csvclean -n -z $MAX_FIELD_LEN INPUT_FILE > OUTPUT_FILE
 
 #INPUT_FILE=/data/p_dsi/capstone_projects/shea/mc_listings.csv
 #OUTPUT_FILE=/scratch/conawws1/vin_date.csv

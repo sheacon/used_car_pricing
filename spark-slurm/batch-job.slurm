@@ -4,7 +4,7 @@
 
 #SBATCH --ntasks=8
 #SBATCH --cpus-per-task=4
-#SBATCH --time=00:30:00
+#SBATCH --time=00:05:00
 #SBATCH --mem-per-cpu=4G
 #SBATCH --constraint=skylake|cascadelake
 
@@ -19,11 +19,10 @@ module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
 # files
-INPUT='/data/p_dsi/capstone_projects/shea/mc_listings.csv'
-OUTPUT='wordcount_$SLURM_JOB_ID'
+INPUT='README.md'
+OUTPUT='wordcount.txt'
 
 # python script
-#export PYTHONHASHSEED=42
 export APP='SimpleApp.py $INPUT $OUTPUT'
 echo $APP
 

@@ -19,8 +19,8 @@
 #SBATCH --export=ALL
 
 #### Output and Error Information ####
-#SBATCH --output=%x.out
-#SBATCH --error=%x.err
+#SBATCH --output=output_%x.out
+#SBATCH --error=error_%x.err
 
 #### Email Notification ####
 #SBATCH --mail-user=shea.conaway@vanderbilt.edu

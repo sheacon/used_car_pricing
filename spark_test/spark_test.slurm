@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=spark_test
-#SBATCH --output=%x.out
-#SBATCH --error=%x.err
+#SBATCH --output=output_%x.out
+#SBATCH --error=error_%x.err
 
 #SBATCH --ntasks=4
 #SBATCH --cpus-per-task=4
@@ -62,7 +62,7 @@ cluster_conf+=$"2-$LAST_PROC      ./task-roles.sh WORKER"
 echo -e $cluster_conf > cluster.conf
 
 # run job
-srun -l -o %x-task-%t.out -e %x-task-%t.err --multi-prog cluster.conf
+srun -l -o output_%x-task-%t.out -e error_%x-task-%t.err --multi-prog cluster.conf
 
 
 

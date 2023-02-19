@@ -18,3 +18,11 @@ csvkit (https://csvkit.readthedocs.io)
 
 X. add line_number to csv
 	`csvcut -l mc_listings.csv > mc_listings2.csv`
+
+## Random
+
+### hdfs transfer
+```
+module load Hadoop
+hdfs dfs -put /data/p_dsi/capstone_projects/shea/mc_listings.csv.gz hdfs:///user/conawws1/
+```

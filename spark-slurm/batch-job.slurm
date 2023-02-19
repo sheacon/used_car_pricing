@@ -60,7 +60,7 @@ cluster_conf+=$"2-$LAST_PROC      ./task-roles.sh WORKER"
 echo -e $cluster_conf > cluster.conf
 
 # run job
-srun -l -o %x-task-%t.out --multi-prog cluster.conf
+srun -l -o %x-task-%t.out -e %x-task-%t.err --multi-prog cluster.conf
 
 
 

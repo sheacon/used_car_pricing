@@ -22,9 +22,20 @@
 module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
+# slurm job
+echo
+echo "process_listings.slurm"
+echo
+cat process_listings.slurm
+echo
+
 # python script
+echo
 export APP="process_listings.py"
 echo $APP
+echo
+cat process_listings.py
+echo
 
 # scratch dir for temp job info
 export JOB_ID=$SLURM_JOB_ID

@@ -28,5 +28,5 @@ hdfs dfs -put /data/p_dsi/capstone_projects/shea/mc_listings.csv.gz hdfs:///user
 ```
 
 ### interactive pyspark setup
-salloc --time=08:00:00 --mem=32G --cpus-per-task=16 --constraint=skylake|cascadelake
+salloc --time=08:00:00 --mem=32G --cpus-per-task=16 --constraint=skylake
 module load GCC/10.2.0 OpenMPI/4.0.5 SciPy-bundle/2020.11 IPython/7.18.1 Spark/2.2.1

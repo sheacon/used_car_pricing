@@ -23,19 +23,19 @@ module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
 # slurm job
-echo
+echo "=========================================================="
 echo "process_listings.slurm"
-echo
+echo "=========================================================="
 cat process_listings.slurm
-echo
+echo "=========================================================="
 
 # python script
-echo
 export APP="process_listings.py"
+echo "=========================================================="
 echo $APP
-echo
+echo "=========================================================="
 cat process_listings.py
-echo
+echo "=========================================================="
 
 # scratch dir for temp job info
 export JOB_ID=$SLURM_JOB_ID
@@ -74,12 +74,10 @@ echo -e $cluster_conf > cluster.conf
 # note: errors in stdout. no need for err files
 srun -l -o task%t.out --multi-prog cluster.conf
 
-# file paths
-grep 'input_file = ' process_listings.py
-grep 'output_dir = ' process_listings.py
-
 # webui tunnel info
 sleep 60
+echo "=========================================================="
 grep 'To tunnel to MasterUI and JobUI' task0.out
+echo "=========================================================="
 
 

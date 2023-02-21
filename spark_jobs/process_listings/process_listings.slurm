@@ -2,14 +2,14 @@
 
 # spark job
 
-#SBATCH --job-name=vin_date_extract
+#SBATCH --job-name=process_listings
 #SBATCH --output=output_%x.out
 #SBATCH --error=error_%x.err
 
-#SBATCH --ntasks=4
+#SBATCH --ntasks=18
 #SBATCH --cpus-per-task=4
-#SBATCH --time=00:10:00
-#SBATCH --mem-per-cpu=4G
+#SBATCH --time=12:00:00
+#SBATCH --mem-per-cpu=40G
 # --constraint=skylake|cascadelake
 
 #SBATCH --account=p_dsi

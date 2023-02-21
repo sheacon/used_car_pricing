@@ -3,19 +3,21 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
 from pyspark.sql.types import *
+from pyspark.sql.window import Window
+import pyspark.sql.functions as F
 
 sc = SparkContext()
 
 # construct spark session instance
 spark = SparkSession(sc).builder \
-    .master("local") \
+    .master("spark://master:7077") \
     .appName("Process Listings") \
     .config("spark.debug.maxToStringFields", "100") \
     .getOrCreate()
 
-# file path
-file = '/data/p_dsi/capstone_projects/shea/mc_listings_extract.csv.gz'
-line_limit = 1000 # restrict number of lines read and processed
+# input and output
+input_file = '/data/p_dsi/capstone_projects/shea/mc_listings_extract.csv'
+output_dir = '/data/p_dsi/capstone_projects/shea/processing_test/'
 
 # define schema
 schema = StructType([
@@ -109,13 +111,25 @@ schema = StructType([
     ])
 
 # read csv
-df = spark.read.csv(file, schema = schema, header = True, sep = ',', quote = '"', escape='"').limit(line_limit)
+df = spark.read.csv(input_file, schema = schema, header = True, sep = ',', quote = '"', escape='"')
 
 # size
 print((df.count(), len(df.columns)))
 
 # preview
 #df.take(5)
+
+# create a window partitioned by "vin" and sorted by "status_date" in descending order
+window = Window.partitionBy("vin").orderBy(F.col("status_date").desc())
+
+# dedupe
+df = df \
+        .withColumn("row_number", F.row_number().over(window)) \
+        .filter(F.col("row_number") == 1) \
+        .drop("row_number")
+
+# size
+print((df.count(), len(df.columns)))
 
 from pyspark.sql.functions import col, size, split, isnull, udf, length, regexp_replace
 import json
@@ -143,8 +157,7 @@ def total_options(options, features):
 # convert to udf
 total_options_udf = udf(total_options, StringType())
 
-preview_cols = ['vin','photo_links_count', 'hvf_parsed']
-
+# unneeded cols to drop
 drop_cols = ['more_info'
             ,'model_code'
             ,'dealer_id'
@@ -167,27 +180,27 @@ drop_cols = ['more_info'
             ,'high_value_features'
             ]
 
-(df
-    # photo links handling
-    .withColumn('photo_links_count', size(split(col('photo_links'), r'\|'))) # count photo links
-    .replace(0,1,'photo_links_count') # fix count for single photos
-    .replace(-1,0,'photo_links_count') # fix count for NAs
+df = (df
+        # photo links handling
+        .withColumn('photo_links_count', size(split(col('photo_links'), r'\|'))) # count photo links
+        .replace(0,1,'photo_links_count') # fix count for single photos
+        .replace(-1,0,'photo_links_count') # fix count for NAs
 
-    # main photo handling
-    .withColumn('photo_main', ~isnull(col('photo_url')))
+        # main photo handling
+        .withColumn('photo_main', ~isnull(col('photo_url')))
 
-    # hvf
-    .withColumn('hvf_parsed',hvf_parse_udf(col('high_value_features')))
+        # combined options
+        .withColumn('total_options',total_options_udf(col('options'),col('features')))
 
-    # combined options
-    .withColumn('total_options',total_options_udf(col('options'),col('features')))
+        # hvf
+        .withColumn('hvf_parsed',hvf_parse_udf(col('high_value_features')))
 
-    # unneded columns
-    .drop(*drop_cols)
+        # unneded columns
+        .drop(*drop_cols)
+        )
 
-    .select(preview_cols).sample(fraction=0.05).show()
-    )
-
+# write csv
+df.write.format('csv').option('header', True).mode('overwrite').save(output_dir)
 
 sc.stop()
 

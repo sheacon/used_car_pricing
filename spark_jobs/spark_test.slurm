@@ -64,12 +64,6 @@ echo -e $cluster_conf > cluster.conf
 # run job
 srun -l -o output_%x-task-%t.out -e error_%x-task-%t.err --multi-prog cluster.conf
 
-# bash to find web ui tunnel command: grep 'To tunnel to MasterUI and JobUI' output_spark_test-task-0.out
-# run command
-# open localhost:8080/ in browser
-
-
-
 
 
 

@@ -25,6 +25,7 @@ module load GCCcore/.8.2.0 Spark/2.4.0
 # slurm job
 echo "=========================================================="
 echo "process_listings.slurm"
+date
 echo "=========================================================="
 cat process_listings.slurm
 echo "=========================================================="

@@ -3,14 +3,14 @@
 # spark job
 
 #SBATCH --job-name=process_listings
-#SBATCH --output=output_%x.out
-#SBATCH --error=error_%x.err
+#SBATCH --output=job.out
+#SBATCH --error=job.err
 
-#SBATCH --ntasks=18
-#SBATCH --cpus-per-task=4
-#SBATCH --time=12:00:00
-#SBATCH --mem-per-cpu=40G
-# --constraint=skylake|cascadelake
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=1
+#SBATCH --time=00:30:00
+#SBATCH --mem-per-cpu=2G
+#SBATCH --constraint=skylake|cascadelake
 
 #SBATCH --account=p_dsi
 #SBATCH --partition=production
@@ -60,14 +60,15 @@ cluster_conf+=$"2-$LAST_PROC      ./task-roles.sh WORKER"
 echo -e $cluster_conf > cluster.conf
 
 # run job
-srun -l -o output_%x-task-%t.out -e error_%x-task-%t.err --multi-prog cluster.conf
+# note: errors in stdout. no need for err files
+srun -l -o task%t.out --multi-prog cluster.conf
 
+# file paths
+grep 'input_file = ' process_listings.py
+grep 'output_dir = ' process_listings.py
 
-
-
-
-
-
-
+# webui tunnel info
+sleep 60
+grep 'To tunnel to MasterUI and JobUI' task0.out
 
 

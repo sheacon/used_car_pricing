@@ -16,7 +16,7 @@ spark = SparkSession(sc).builder \
     .getOrCreate()
 
 # input and output
-input_file = '/data/p_dsi/capstone_projects/shea/mc_listings.csv'
+input_file = '/data/p_dsi/capstone_projects/shea/mc_listings_extract.csv'
 output_dir = '/data/p_dsi/capstone_projects/shea/processed/'
 
 # define schema

@@ -6,11 +6,11 @@
 #SBATCH --output=job.out
 #SBATCH --error=job.err
 
-#SBATCH --nodes=2
-#SBATCH --ntasks=66
-#SBATCH --cpus-per-task=1
-#SBATCH --time=02:00:00
-#SBATCH --mem-per-cpu=6G
+#SBATCH --time=00:45:00
+#SBATCH --ntasks=18
+#SBATCH --cpus-per-task=2
+#SBATCH --mem-per-cpu=8G
+#SBATCH --constraint=skylake
 
 #SBATCH --account=p_dsi
 #SBATCH --partition=production
@@ -23,10 +23,12 @@ module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
 date
+grep "#SBATCH" process_listings.slurm
+grep "input_file =" process_listings.py
+grep "output_dir =" process_listings.py
 
-# python script
+# job script
 export APP="process_listings.py"
-echo $APP
 
 # scratch dir for temp job info
 export JOB_ID=$SLURM_JOB_ID

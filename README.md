@@ -40,12 +40,6 @@ Other research areas:
 
 ## Deadlines
 
-Syllabus Dates
-- Project Proposal - Jan 9
-- Project Work Done / Final Report Draft - Apr 15
-- Presentation Slides / Final Report - May 1
-- Presentation / Paper / Blog - May 4
-
 Brightspace Dates
 - Proposal - Jan 8
 - Final Report Draft - Mar 31

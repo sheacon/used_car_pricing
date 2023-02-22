@@ -12,12 +12,12 @@ sc = SparkContext()
 spark = SparkSession(sc).builder \
     .master("spark://master:7077") \
     .appName("Process Listings") \
-    .config("spark.debug.maxToStringFields", "100") \
+    .config("spark.debug.maxToStringFields", "150") \
     .getOrCreate()
 
 # input and output
-input_file = '/data/p_dsi/capstone_projects/shea/mc_listings.csv'
-output_dir = '/data/p_dsi/capstone_projects/shea/processed/'
+input_file = '/data/p_dsi/capstone_projects/shea/mc_listings_large_sample.csv'
+output_dir = '/data/p_dsi/capstone_projects/shea/processed_large_sample/'
 
 # define schema
 schema = StructType([
@@ -116,9 +116,6 @@ df = spark.read.csv(input_file, schema = schema, header = True, sep = ',', quote
 # size
 print((df.count(), len(df.columns)))
 
-# preview
-#df.take(5)
-
 # create a window partitioned by "vin" and sorted by "status_date" in descending order
 window = Window.partitionBy("vin").orderBy(F.col("status_date").desc())
 
@@ -127,9 +124,6 @@ df = df \
         .withColumn("row_number", F.row_number().over(window)) \
         .filter(F.col("row_number") == 1) \
         .drop("row_number")
-
-# size
-print((df.count(), len(df.columns)))
 
 from pyspark.sql.functions import col, size, split, isnull, udf, length, regexp_replace
 import json
@@ -200,7 +194,7 @@ df = (df
         )
 
 # write csv
-df.write.format('csv').option('header', True).mode('overwrite').save(output_dir)
+df.write.csv(output_dir,header = True, sep = ',', quote = '"', escape='"', mode = 'overwrite')
 
 sc.stop()
 

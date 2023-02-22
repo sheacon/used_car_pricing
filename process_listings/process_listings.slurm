@@ -6,11 +6,10 @@
 #SBATCH --output=job.out
 #SBATCH --error=job.err
 
-#SBATCH --ntasks=4
-#SBATCH --cpus-per-task=1
-#SBATCH --time=00:30:00
-#SBATCH --mem-per-cpu=2G
-#SBATCH --constraint=skylake|cascadelake
+#SBATCH --ntasks=18
+#SBATCH --cpus-per-task=2
+#SBATCH --time=06:00:00
+#SBATCH --mem-per-cpu=80G
 
 #SBATCH --account=p_dsi
 #SBATCH --partition=production
@@ -22,21 +21,11 @@
 module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
-# slurm job
-echo "=========================================================="
-echo "process_listings.slurm"
 date
-echo "=========================================================="
-cat process_listings.slurm
-echo "=========================================================="
 
 # python script
 export APP="process_listings.py"
-echo "=========================================================="
 echo $APP
-echo "=========================================================="
-cat process_listings.py
-echo "=========================================================="
 
 # scratch dir for temp job info
 export JOB_ID=$SLURM_JOB_ID
@@ -75,10 +64,5 @@ echo -e $cluster_conf > cluster.conf
 # note: errors in stdout. no need for err files
 srun -l -o task%t.out --multi-prog cluster.conf
 
-# webui tunnel info
-sleep 60
-echo "=========================================================="
-grep 'To tunnel to MasterUI and JobUI' task0.out
-echo "=========================================================="
 
 

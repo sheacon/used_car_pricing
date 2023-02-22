@@ -11,13 +11,16 @@ sc = SparkContext()
 # construct spark session instance
 spark = SparkSession(sc).builder \
     .master("spark://master:7077") \
+    #.master("local") \
     .appName("Process Listings") \
     .config("spark.debug.maxToStringFields", "150") \
     .getOrCreate()
 
 # input and output
 input_file = '/data/p_dsi/capstone_projects/shea/mc_listings_large_sample.csv'
+#input_file = 'mc_listings_small_sample.csv'
 output_dir = '/data/p_dsi/capstone_projects/shea/processed_large_sample/'
+#output_dir = 'processed/'
 
 # define schema
 schema = StructType([
@@ -120,7 +123,7 @@ print((df.count(), len(df.columns)))
 window = Window.partitionBy("vin").orderBy(F.col("status_date").desc())
 
 # dedupe
-df = df \
+df2 = df \
         .withColumn("row_number", F.row_number().over(window)) \
         .filter(F.col("row_number") == 1) \
         .drop("row_number")
@@ -130,26 +133,27 @@ import json
 
 # parse high value features from nested json to compact dictionary
 def hvf_parse(hvf_field):
+    standard = []
+    optional = []
     if hvf_field:
-        hvf_items = json.loads(hvf_field)
-        options = {'Standard': {}, 'Optional': {}}
+        hvf_items = json.loads(hvf_field) 
         for item in hvf_items:
-            if item['category'] not in options[item['type']]:
-                options[item['type']][item['category']] = []
-            options[item['type']][item['category']].append(item['description'])
-        hvf_field = str(options)
-    return hvf_field
+            if item['type'] == 'Standard':
+                standard.append(item['description'])
+            if item['type'] == 'Optional':
+                optional.append(item['description'])
+    return [standard,optional]
 
 # convert to udf
-hvf_parse_udf = udf(hvf_parse, StringType())
+hvf_parse_udf = udf(hvf_parse,ArrayType(ArrayType(StringType(),containsNull=True),containsNull=True))
 
 # compile all options
 def total_options(options, features):
-    combined = '|'.join(list(set(str(options).split('|') + str(features).split('|'))))
+    combined = list(set(str(options).split('|') + str(features).split('|')))
     return combined
 
 # convert to udf
-total_options_udf = udf(total_options, StringType())
+total_options_udf = udf(total_options, ArrayType(StringType(), containsNull = True))
 
 # unneeded cols to drop
 drop_cols = ['more_info'
@@ -174,7 +178,7 @@ drop_cols = ['more_info'
             ,'high_value_features'
             ]
 
-df = (df
+df3 = (df2
         # photo links handling
         .withColumn('photo_links_count', size(split(col('photo_links'), r'\|'))) # count photo links
         .replace(0,1,'photo_links_count') # fix count for single photos
@@ -184,17 +188,17 @@ df = (df
         .withColumn('photo_main', ~isnull(col('photo_url')))
 
         # combined options
-        .withColumn('total_options',total_options_udf(col('options'),col('features')))
+        .withColumn('listed_options',total_options_udf(col('options'),col('features')))
 
         # hvf
-        .withColumn('hvf_parsed',hvf_parse_udf(col('high_value_features')))
+        .withColumn('hvf_options',hvf_parse_udf(col('high_value_features')))
 
         # unneded columns
         .drop(*drop_cols)
         )
 
 # write csv
-df.write.csv(output_dir,header = True, sep = ',', quote = '"', escape='"', mode = 'overwrite')
+df3.write.parquet(output_dir, mode = 'overwrite')
 
 sc.stop()
 

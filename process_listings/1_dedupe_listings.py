@@ -19,26 +19,33 @@ spark = SparkSession(sc).builder \
     .getOrCreate()
 
 # input and output
-input_dir = '/data/p_dsi/capstone_projects/shea/processed/large_sample'
-output_dir = '/data/p_dsi/capstone_projects/shea/deduped/' + job_id
+listings = '/data/p_dsi/capstone_projects/shea/processed/large_sample'
+registrations = '/data/p_dsi/capstone_projects/shea/processed/mvr_vin_dates.parquet'
+output_dir = '/data/p_dsi/capstone_projects/shea/processed/deduped/' + job_id
 
 # read parquet
-df = spark.read.parquet(input_dir)
+listings = spark.read.parquet(listings)
+registrations = spark.read.parquet(registrations)
 
-# size
-print((df.count(), len(df.columns)))
+listings.createOrReplaceTempView("listings")
+registrations.createOrReplaceTempView("registrations")
 
-# create a window partitioned by "vin" and sorted by "status_date" in descending order
-window = Window.partitionBy("vin").orderBy(F.col("status_date").desc())
+query = """
+SELECT registrations.*, listings.*
+FROM registrations
+LEFT JOIN (
+    SELECT DISTINCT ON (vin) *
+    FROM listings
+    WHERE status_date <= registrations.mvr_sale_date
+    ORDER BY vin, status_date DESC
+) AS listings
+ON registrations.vin = listings.vin
+"""
 
-# dedupe
-df2 = df \
-        .withColumn("row_number", F.row_number().over(window)) \
-        .filter(F.col("row_number") == 1) \
-        .drop("row_number")
+df = spark.sql(query)
 
 # write csv
-df2.write.parquet(output_dir, mode = 'overwrite')
+df.write.parquet(output_dir, mode = 'overwrite')
 
 sc.stop()
 

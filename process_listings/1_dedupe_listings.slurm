@@ -6,10 +6,10 @@
 #SBATCH --output=job-%j.out
 #SBATCH --error=job-%j.err
 
-#SBATCH --time=02:00:00
-#SBATCH --ntasks=18
+#SBATCH --time=01:3o:00
+#SBATCH --ntasks=34
 #SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=1G
+#SBATCH --mem-per-cpu=4G
 #SBATCH --constraint=skylake
 
 #SBATCH --account=p_dsi
@@ -23,7 +23,7 @@ module purge
 module load GCCcore/.8.2.0 Spark/2.4.0
 
 date
-grep "#SBATCH" process_listings.slurm
+grep "#SBATCH" 1_dedupe_listings.slurm
 
 # job script
 export APP="process_listings.py $SLURM_JOB_ID"

@@ -27,22 +27,17 @@ output_dir = '/data/p_dsi/capstone_projects/shea/processed/deduped/' + job_id
 listings = spark.read.parquet(listings)
 registrations = spark.read.parquet(registrations)
 
-listings.createOrReplaceTempView("listings")
-registrations.createOrReplaceTempView("registrations")
 
-query = """
-SELECT registrations.*, listings.*
-FROM registrations
-LEFT JOIN (
-    SELECT DISTINCT ON (vin) *
-    FROM listings
-    WHERE status_date <= registrations.mvr_sale_date
-    ORDER BY vin, status_date DESC
-) AS listings
-ON registrations.vin = listings.vin
-"""
+from pyspark.sql.functions import max, col
 
-df = spark.sql(query)
+# Create a window function to partition the listings by vehicle_id and order by timestamp in descending order
+window = Window.partitionBy("vin").orderBy(col("status_date").desc())
+
+# Use the window function to get the most recent listing for each vehicle that occurred before or at the time of the registration
+latest_listing = listings.where(col("status_date") <= col("mvr_sale_date")).select("*", row_number().over(window).alias("rn")).filter(col("rn") == 1)
+
+# Join the registrations table with the latest_listing table on vehicle_id
+result = registrations.join(latest_listing, "vin", "left")
 
 # write csv
 df.write.parquet(output_dir, mode = 'overwrite')

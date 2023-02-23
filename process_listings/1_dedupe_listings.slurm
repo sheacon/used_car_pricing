@@ -6,7 +6,7 @@
 #SBATCH --output=job-%j.out
 #SBATCH --error=job-%j.err
 
-#SBATCH --time=01:3o:00
+#SBATCH --time=01:30:00
 #SBATCH --ntasks=34
 #SBATCH --cpus-per-task=2
 #SBATCH --mem-per-cpu=4G
@@ -26,7 +26,7 @@ date
 grep "#SBATCH" 1_dedupe_listings.slurm
 
 # job script
-export APP="process_listings.py $SLURM_JOB_ID"
+export APP="1_dedupe_listings.py $SLURM_JOB_ID"
 
 # scratch dir for temp job info
 export JOB_ID=$SLURM_JOB_ID

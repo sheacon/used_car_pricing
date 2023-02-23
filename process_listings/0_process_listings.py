@@ -5,22 +5,22 @@ from pyspark.sql import Row
 from pyspark.sql.types import *
 from pyspark.sql.window import Window
 import pyspark.sql.functions as F
+import sys
+
+job_id = sys.argv[1]
 
 sc = SparkContext()
 
 # construct spark session instance
 spark = SparkSession(sc).builder \
     .master("spark://master:7077") \
-    #.master("local") \
     .appName("Process Listings") \
     .config("spark.debug.maxToStringFields", "150") \
     .getOrCreate()
 
 # input and output
-input_file = '/data/p_dsi/capstone_projects/shea/mc_listings_large_sample.csv'
-#input_file = 'mc_listings_small_sample.csv'
-output_dir = '/data/p_dsi/capstone_projects/shea/processed_large_sample/'
-#output_dir = 'processed/'
+input_file = '/data/p_dsi/capstone_projects/shea/mc_listings.csv'
+output_dir = '/data/p_dsi/capstone_projects/shea/processed/' + job_id
 
 # define schema
 schema = StructType([
@@ -119,15 +119,6 @@ df = spark.read.csv(input_file, schema = schema, header = True, sep = ',', quote
 # size
 print((df.count(), len(df.columns)))
 
-# create a window partitioned by "vin" and sorted by "status_date" in descending order
-window = Window.partitionBy("vin").orderBy(F.col("status_date").desc())
-
-# dedupe
-df2 = df \
-        .withColumn("row_number", F.row_number().over(window)) \
-        .filter(F.col("row_number") == 1) \
-        .drop("row_number")
-
 from pyspark.sql.functions import col, size, split, isnull, udf, length, regexp_replace
 import json
 
@@ -178,7 +169,7 @@ drop_cols = ['more_info'
             ,'high_value_features'
             ]
 
-df3 = (df2
+df2 = (df
         # photo links handling
         .withColumn('photo_links_count', size(split(col('photo_links'), r'\|'))) # count photo links
         .replace(0,1,'photo_links_count') # fix count for single photos
@@ -198,7 +189,7 @@ df3 = (df2
         )
 
 # write csv
-df3.write.parquet(output_dir, mode = 'overwrite')
+df2.write.parquet(output_dir, mode = 'overwrite')
 
 sc.stop()
 

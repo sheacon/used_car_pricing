@@ -3,13 +3,14 @@
 # spark job
 
 #SBATCH --job-name=process_listings
-#SBATCH --output=job.out
-#SBATCH --error=job.err
+#SBATCH --output=job-%j.out
+#SBATCH --error=job-%j.err
 
-#SBATCH --time=00:45:00
-#SBATCH --ntasks=18
+
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=34
 #SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=8G
+#SBATCH --mem-per-cpu=2G
 #SBATCH --constraint=skylake
 
 #SBATCH --account=p_dsi
@@ -24,11 +25,9 @@ module load GCCcore/.8.2.0 Spark/2.4.0
 
 date
 grep "#SBATCH" process_listings.slurm
-grep "input_file =" process_listings.py
-grep "output_dir =" process_listings.py
 
 # job script
-export APP="process_listings.py"
+export APP="0_process_listings.py $SLURM_JOB_ID"
 
 # scratch dir for temp job info
 export JOB_ID=$SLURM_JOB_ID
@@ -52,7 +51,7 @@ export SPARK_WORKER_MEMORY=$(( SLURM_MEM_PER_CPU * $SLURM_CPUS_PER_TASK - 1000))
 export SPARK_EXECUTOR_CORES=$SLURM_CPUS_PER_TASK
 export SPARK_EXECUTOR_MEMORY=$SPARK_WORKER_MEMORY
 
-# test for config file presence
+# execute accre spark configs
 source "$SPARK_HOME/sbin/spark-config.sh"
 source "$SPARK_HOME/bin/load-spark-env.sh"
 
@@ -65,7 +64,7 @@ echo -e $cluster_conf > cluster.conf
 
 # run job
 # note: errors in stdout. no need for err files
-srun -l -o task%t.out --multi-prog cluster.conf
+srun -l -o task%t-%j.out --multi-prog cluster.conf
 
 
 

@@ -19,7 +19,7 @@ spark = SparkSession(sc).builder \
     .getOrCreate()
 
 # input and output
-input_dir = '/data/p_dsi/capstone_projects/shea/processed/'
+input_dir = '/data/p_dsi/capstone_projects/shea/processed/large_sample'
 output_dir = '/data/p_dsi/capstone_projects/shea/deduped/' + job_id
 
 # read parquet

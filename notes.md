@@ -8,23 +8,18 @@ csvkit (https://csvkit.readthedocs.io)
 ## Data Processing
 
 1. unzip
-2. check for csv line errors
-	`csvclean -n mc_listings.csv > error_check.txt`
-3. run python script process_listings.py
-	- remove photo_url, more_info
+
+2. run pyspark script process_listings.py
+	- drop unneeded columns
 	- replace photo links with count
-	- combine distinct options/features
+	- compact listed options and hvf options
 
+3. dedupe listings
+	- keep the most recent listing prior to a registration date
 
-X. add line_number to csv
-	`csvcut -l mc_listings.csv > mc_listings2.csv`
 
 ## Random
 
-### hdfs transfer
-```
-module load Hadoop
-hdfs dfs -put /data/p_dsi/capstone_projects/shea/mc_listings.csv.gz hdfs:///user/conawws1/
 ```
 
 ### interactive pyspark setup

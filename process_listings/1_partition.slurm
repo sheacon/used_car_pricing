@@ -15,7 +15,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=00:10:00
-#SBATCH --array=0-16701%20
+#SBATCH --array=0-16701%10
 
 #### Output ####
 #SBATCH --export=ALL

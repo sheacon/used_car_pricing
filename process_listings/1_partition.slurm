@@ -30,7 +30,7 @@ output_dir="/data/p_dsi/capstone_projects/shea/1_partitioned/"
 
 file=`ls $input_dir | awk -v line=$SLURM_ARRAY_TASK_ID '{if (NR == line) print $0}'`
 
-/home/conawws1/used_car_pricing/process_listings/1_partition_python.py $input_dir $file $output_dir
+/home/conawws1/used_car_pricing/process_listings/1_partition.py $input_dir $file $output_dir
 
 
 

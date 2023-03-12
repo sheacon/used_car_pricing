@@ -10,7 +10,7 @@ output_dir = sys.argv[3]
 # debug
 #input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
 #file = "part-00000-ab3867d4-3d1a-404d-aadb-d7f3afb6fd40-c000.snappy.parquet"
-#output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned_python/"
+#output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned_array/"
 
 # read in the parquet file
 df = pd.read_parquet(input_dir+file)

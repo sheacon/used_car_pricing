@@ -1,30 +1,27 @@
 #!/bin/bash
 
 #### Job Name ####
-##SBATCH --job-name=gunzip
+##SBATCH --job-name=
 
-#### Account and Partition ####
+#### Accounts ####
 #SBATCH --account=p_dsi
 #SBATCH --partition=production
+#SBATCH --mail-user=shea.conaway@vanderbilt.edu
+#SBATCH --mail-type=ALL
 
 #### Resources Required ####
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem-per-cpu=4G
-#SBATCH --time=6:00:00
+#SBATCH --time=00:10:00
 #SBATCH --array=0-16701%20
 
-#### Environment Related ####
+#### Output ####
 #SBATCH --export=ALL
-
-#### Output and Error Information ####
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 
-#### Email Notification ####
-#SBATCH --mail-user=shea.conaway@vanderbilt.edu
-#SBATCH --mail-type=ALL
 
 module restore default
 

@@ -3,14 +3,17 @@ import pyarrow
 import os
 import sys
 
-file = sys.argv[1]
+input_dir = sys.argv[1]
+file = sys.argv[2]
+output_dir = sys.argv[3]
 
-array_id = sys.argv[2]
-
-output_dir = '/data/p_dsi/capstone_projects/shea/1_partitioned_python'
+# debug
+#input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
+#file = "part-00000-ab3867d4-3d1a-404d-aadb-d7f3afb6fd40-c000.snappy.parquet"
+#output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned_python/"
 
 # read in the parquet file
-df = pd.read_parquet(file)
+df = pd.read_parquet(input_dir+file)
 
 df = df.dropna(subset = ["scraped_at"])
 
@@ -23,4 +26,4 @@ partitions = df.groupby(["state", "scraped_at_year"])
 for (state, scraped_at_year), partition in partitions:
     partition_path = os.path.join(output_dir, state, str(scraped_at_year))
     os.makedirs(partition_path, exist_ok=True)
-    partition.to_parquet(partition_path + "/" + str(array_id) + ".parquet")
+    partition.to_parquet(partition_path + "/" + file)

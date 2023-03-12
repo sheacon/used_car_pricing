@@ -1,152 +1,44 @@
-import pyspark
-from pyspark import SparkContext
-from pyspark.sql import SparkSession
-from pyspark.sql import Row
-from pyspark.sql.types import *
+
+# salloc --time=02:00:00 --ntasks=1 --cpus-per-task=12 --mem=480G
+
+conf = spark.sparkContext.getConf()
+conf.set("spark.debug.maxToStringFields", "100")
+
+from pathlib import Path
+
+# Directory path containing parquet files
+parquet_dir = '/data/p_dsi/capstone_projects/shea/0_processed_listings/full_data'
+
+# Use Path object to select only parquet files in the directory
+path = Path(parquet_dir)
+parquet_files = [str(file) for file in path.glob('*.parquet')]
+
+# Load all the parquet files in the directory into a DataFrame
+df = spark.read.parquet(*parquet_files)
+# drop na vins
+df = df.dropna(subset=["vin"])
+
+# df size
+print("Number of rows: ", df.count())
+print("Number of columns: ", len(df.columns))
+
+
 from pyspark.sql.window import Window
-import pyspark.sql.functions as F
-from pyspark.sql.functions import from_unixtime
-import sys
-
-
-#job_id = sys.argv[1]
-
-#sc = SparkContext()
-
-# construct spark session instance
-spark = SparkSession(sc).builder \
-    .appName("Dedupe Listings") \
-    .master("local") \
-    .config("spark.driver.memory", "7g") \
-    .config("spark.executor.memory", "7g") \
-    .config("spark.debug.maxToStringFields", "150") \
-    .getOrCreate()
-
-# input and output
-listings_file = '/data/p_dsi/capstone_projects/shea/0_processed_listings/small_sample'
-registrations_file = '/data/p_dsi/capstone_projects/shea/mvr_vin_dates.parquet'
-output_dir = '/data/p_dsi/capstone_projects/shea/1_deduped_listings/'
-
-# read parquet
-listings = spark.read.parquet(listings_file)
-registrations = spark.read.parquet(registrations_file)
-
-# remove records with null vin
-listings = listings.filter(listings['vin'].isNotNull())
-
-# dupe registrations issue
-registrations.count()
-registrations.dropDuplicates().count()
-registrations.count()
-
-# record count
-listings.count()
-registrations.count()
-
-# unique vin count
-listings.select(F.countDistinct("vin")).collect()[0][0]
-
-# duplicate vins
-duplicates = listings.groupBy("vin").agg(F.count("*").alias("count")).filter("count > 1")
-duplicates.show()
-
-# duplicate records
-duplicate_listings = duplicates.join(listings, "vin", "inner").select(['vin','status_date','scraped_at','first_scraped_at']).sort('vin','status_date')
-duplicate_listings = duplicate_listings \
-            .withColumn('first_scraped_at', from_unixtime('first_scraped_at')) \
-            .withColumn('scraped_at', from_unixtime('scraped_at')) \
-            .withColumn('status_date', from_unixtime('status_date'))
-duplicate_listings.show()
-
-
-
-
-
-
-
-
-
 from pyspark.sql.functions import row_number
-from pyspark.sql.functions import col, max, when
-from pyspark.sql.window import Window
 
-# Define windows for each table
-listings_window = Window.partitionBy('vin').orderBy(col('status_date').desc())
-registrations_window = Window.partitionBy('vin').orderBy(col('mvr_sale_date').asc())
+# Define a window specification
+window_spec = Window.partitionBy("vin").orderBy(df["status_date"].desc())
 
-latest_listings = (
-    duplicate_listings
-    .withColumn('rn', row_number().over(listings_window))
-    .join(
-        registrations,
-        on='vin',
-        how='inner'
-    )
-    .filter(col('status_date') <= col('mvr_sale_date'))
-    .select('vin', 'status_date', 'scraped_at', 'first_scraped_at', 'mvr_sale_date')
-).show()
+# Add a row number column to the DataFrame
+df = df.withColumn("row_number", row_number().over(window_spec))
 
+# Keep only the rows with the largest status_date for each vin
+df = df.filter(df.row_number == 1).drop("row_number")
 
+# df
+print("Number of rows: ", df.count())
+print("Number of columns: ", len(df.columns))
 
+output_dir = '/data/p_dsi/capstone_projects/shea/1_deduped_listings/full_data'
 
-
-
-
-
-
-
-
-# create temp views
-duplicate_listings.createOrReplaceTempView("duplicate_listings")
-registrations.createOrReplaceTempView("registrations")
-
-
-query = """
-SELECT
-    registrations.*,
-    duplicate_listings.*,
-    ROW_NUMBER() OVER(
-        PARTITION BY registrations.vin
-        ORDER BY
-            duplicate_listings.status_date DESC
-    )
-FROM
-    registrations
-    LEFT JOIN duplicate_listings ON registrations.vin = duplicate_listings.vin
-    AND registrations.mvr_sale_date >= duplicate_listings.status_date
-"""
-
-spark.sql(query).show()
-
-
-query = """
-SELECT
-    *
-FROM
-    (
-        SELECT
-            registrations.*,
-            duplicate_listings.*,
-            ROW_NUMBER() OVER(
-                PARTITION BY registrations.id
-                ORDER BY
-                    duplicate_listings.timestamp DESC
-            )
-        FROM
-            registrations
-            LEFT JOIN duplicate_listings ON registrations.vehicle_id = duplicate_listings.vehicle_id
-            AND registrations.timestamp >= duplicate_listings.timestamp
-    ) a
-WHERE
-    a.ROW_NUMBER = 1;
-"""
-
-
-
-
-
-# write csv
 df.write.parquet(output_dir, mode = 'overwrite')
-
-sc.stop()
-

@@ -1,6 +1,7 @@
 .DS_Store
 /data
 /private
+/catboost_info
 .ipynb_checkpoints/
 *.err
 *.out

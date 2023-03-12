@@ -1,4 +1,4 @@
-q#!/bin/bash
+#!/bin/bash
 #SBATCH --mail-user=shea.conaway@vanderbilt.edu
 #SBATCH --mail-type=ALL
 #SBATCH --time=2:00:00

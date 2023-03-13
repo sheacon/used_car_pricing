@@ -6,18 +6,22 @@ from glob import glob
 
 input_dir = sys.argv[1]
 file_section = int(sys.argv[2])
-output_dir = sys.argv[3]
+file_sections = int(sys.argv[3])
+output_dir = sys.argv[4]
 
 # debug
 #input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
-#file_section = 2
 #output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned/"
+#file_section = 20
 
 file_list = glob(input_dir + '*.parquet')
-files_per_section = len(file_list)//49
+files_per_section = len(file_list)//file_sections
 file_sublist = file_list[(file_section-1)*files_per_section:file_section*files_per_section]
 
 # debug
+#len(file_list)
+#(file_section-1)*files_per_section
+#file_section*files_per_section
 #file_sublist = file_sublist[0:10]
 
 # read in the parquet file
@@ -50,6 +54,8 @@ partitions = df.groupby(["state", "scraped_at_year"])
 
 # write each partition to its own directory
 for (state, scraped_at_year), partition in partitions:
+#    if scraped_at_year < 2018:
+#        continue
     partition_path = os.path.join(output_dir, state, str(scraped_at_year))
     os.makedirs(partition_path, exist_ok=True)
     partition.to_parquet(f"{partition_path}/file_{file_section}.parquet")

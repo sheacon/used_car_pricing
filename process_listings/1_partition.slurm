@@ -25,7 +25,6 @@
 
 
 module restore default
-module load GCCcore/.8.2.0 Spark/2.4.0
 
 input_dir="/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
 output_dir="/data/p_dsi/capstone_projects/shea/1_partitioned/"

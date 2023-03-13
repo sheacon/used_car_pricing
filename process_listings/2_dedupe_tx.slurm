@@ -16,7 +16,6 @@
 #SBATCH --mem-per-cpu=100G
 #SBATCH --time=03:00:00
 #SBATCH --array=0-4
-#SBATCH --constraint=sandybridge|haswell
 
 #### Output ####
 #SBATCH --export=ALL

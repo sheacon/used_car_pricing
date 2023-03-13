@@ -11,16 +11,36 @@ output_dir = sys.argv[3]
 # debug
 #input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
 #file_section = 2
-#output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned_array/"
+#output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned/"
 
 file_list = glob(input_dir + '*.parquet')
 files_per_section = len(file_list)//99
 file_sublist = file_list[(file_section-1)*files_per_section:file_section*files_per_section]
 
 # read in the parquet file
-df = pd.concat(pd.read_parquet(f) for f in file_sublist)
+df = pd.concat(pd.read_parquet(f) for f in file_sublist).reset_index()
 df = df.dropna(subset = ["scraped_at"])
 df["scraped_at_year"] = pd.to_datetime(df['scraped_at'], unit='s').dt.year
+
+# unnest hvf features
+df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
+df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
+df = df.drop(["hvf_options"], axis=1)
+
+# drop other unneeded columns
+df = df.drop(['loan_term', 'loan_apr', 'l_down_pay', 'l_emi',
+       'f_down_pay', 'f_down_pay_per', 'f_emi', 'lease_term',
+       'index','id', 'heading', 'msrp', 'stock_no', 'engine',
+       'engine_measure', 'engine_aspiration', 'speeds', 'interior_color',
+       'exterior_color', 'taxonomy_vin', 'source', 'seller_name',
+       'car_seller_name', 'car_city', 'car_state', 'car_zip',
+        'car_latitude', 'car_longitude', 'dom', 'dom_180',
+        'dom_active','carfax_1_owner','carfax_clean_title'], axis=1)
+
+# unneeded
+df = df[df["currency_indicator"] == "USD"]
+df = df[df["miles_indicator"] == "MILES"]
+df = df.drop(["currency_indicator","miles_indicator"], axis=1)
 
 # partition the data
 partitions = df.groupby(["state", "scraped_at_year"])

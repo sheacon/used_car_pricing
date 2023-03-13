@@ -41,9 +41,9 @@ df = df.drop(['loan_term', 'loan_apr', 'l_down_pay', 'l_emi',
         'dom_active','carfax_1_owner','carfax_clean_title'], axis=1)
 
 # unneeded
-df = df[df["currency_indicator"] == "USD"]
-df = df[df["miles_indicator"] == "MILES"]
-df = df.drop(["currency_indicator","miles_indicator"], axis=1)
+#df = df[df["currency_indicator"] == "USD"]
+#df = df[df["miles_indicator"] == "MILES"]
+#df = df.drop(["currency_indicator","miles_indicator"], axis=1)
 
 # partition the data
 partitions = df.groupby(["state", "scraped_at_year"])

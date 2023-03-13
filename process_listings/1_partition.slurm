@@ -15,7 +15,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem-per-cpu=16G
 #SBATCH --time=00:30:00
-#SBATCH --array=1-100%10
+#SBATCH --array=1-50%10
 #SBATCH --constraint=skylake
 
 #### Output ####

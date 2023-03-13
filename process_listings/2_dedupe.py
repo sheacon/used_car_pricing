@@ -22,6 +22,12 @@ input_dir = f"{base_dir}/{state}/{year}/"
 # read files
 df = pd.read_parquet(input_dir)
 
+# NEXT OPTION: UNNEST hvf_options
+# df["hvf_standard"] = df["hvf_options"][0]
+# df["hvf_optional"] = df["hvf_options"][1]
+
+# MAYBE DEPENDS ON NODE SOFTWARE?
+
 # dedupe vin by status_date
 mask = df['status_date'] == df.groupby('vin')['status_date'].transform(max)
 deduped_df = df.loc[mask]

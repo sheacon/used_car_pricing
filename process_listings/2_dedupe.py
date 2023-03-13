@@ -18,11 +18,9 @@ year = years[year]
 # file structure
 base_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned"
 input_dir = f"{base_dir}/{state}/{year}/"
-file_list = glob(input_dir + '*.parquet')
-#file_list = file_list[0:10]
 
 # read files
-df = pd.concat(pd.read_parquet(f) for f in file_list).reset_index()
+df = pd.read_parquet(input_dir)
 
 # dedupe vin by status_date
 mask = df['status_date'] == df.groupby('vin')['status_date'].transform(max)

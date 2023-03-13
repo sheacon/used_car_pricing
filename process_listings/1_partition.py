@@ -18,12 +18,6 @@ file_list = glob(input_dir + '*.parquet')
 files_per_section = len(file_list)//file_sections
 file_sublist = file_list[(file_section-1)*files_per_section:file_section*files_per_section]
 
-# debug
-#len(file_list)
-#(file_section-1)*files_per_section
-#file_section*files_per_section
-#file_sublist = file_sublist[0:10]
-
 # read in the parquet file
 df = pd.concat(pd.read_parquet(f) for f in file_sublist).reset_index()
 df = df.dropna(subset = ["scraped_at"])

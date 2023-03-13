@@ -16,6 +16,7 @@
 #SBATCH --mem-per-cpu=16G
 #SBATCH --time=00:30:00
 #SBATCH --array=1-100%10
+#SBATCH --constraint=skylake
 
 #### Output ####
 #SBATCH --export=ALL
@@ -24,6 +25,7 @@
 
 
 module restore default
+module load GCCcore/.8.2.0 Spark/2.4.0
 
 input_dir="/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
 output_dir="/data/p_dsi/capstone_projects/shea/1_partitioned/"

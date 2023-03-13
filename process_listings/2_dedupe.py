@@ -1,6 +1,7 @@
 
 import sys
 import pandas as pd
+import pyarrow
 from glob import glob
 
 state = sys.argv[1]

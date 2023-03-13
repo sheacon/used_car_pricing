@@ -1,25 +1,31 @@
 import pandas as pd
-import pyarrow
+import pyarrow.parquet as pq
+import pyarrow as pa
 import os
 import sys
 from glob import glob
 
-input_dir = sys.argv[1]
-file_section = int(sys.argv[2])
-file_sections = int(sys.argv[3])
-output_dir = sys.argv[4]
+file_section = int(sys.argv[1])
+file_sections = int(sys.argv[2])
+
+input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
+output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned/"
 
 # debug
-#input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
-#output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned/"
 #file_section = 20
+#file_sections = 100
 
 file_list = glob(input_dir + '*.parquet')
 files_per_section = len(file_list)//file_sections
 file_sublist = file_list[(file_section-1)*files_per_section:file_section*files_per_section]
 
-# read in the parquet file
-df = pd.concat(pd.read_parquet(f) for f in file_sublist).reset_index()
+# read in the parquet files
+#df = pd.concat([pd.read_parquet(f) for f in file_sublist])
+tables = [pq.read_table(file) for file in file_list]
+concatenated_table = pa.concat_tables(tables)
+df = concatenated_table.to_pandas()
+
+# year
 df = df.dropna(subset = ["scraped_at"])
 df["scraped_at_year"] = pd.to_datetime(df['scraped_at'], unit='s').dt.year
 

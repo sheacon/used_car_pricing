@@ -28,8 +28,9 @@ module restore default
 
 input_dir="/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
 output_dir="/data/p_dsi/capstone_projects/shea/1_partitioned/"
+array_size=32
 
-python /home/conawws1/used_car_pricing/process_listings/1_partition.py $input_dir $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_SIZE $output_dir
+python /home/conawws1/used_car_pricing/process_listings/1_partition.py $input_dir $SLURM_ARRAY_TASK_ID $array_size $output_dir
 
 
 

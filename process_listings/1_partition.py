@@ -26,12 +26,12 @@ read_cols = ['vin', 'price', 'miles', 'year', 'make', 'model', 'trim',
 table = pq.read_table(input_dir, columns=read_cols)
 
 # year
-scraped_at = pa.compute.fill_null(table["scraped_at"], "0").to_numpy()
-years = [datetime.fromtimestamp(int(ts)).year for ts in scraped_at]
-table = table.append_column("scraped_at_year", pa.array(years))
+status_date = pa.compute.fill_null(table["status_date"], "0").to_numpy()
+years = [datetime.fromtimestamp(int(ts)).year for ts in status_date]
+table = table.append_column("status_date_year", pa.array(years))
 
 # write each partition to its own directory
-partition_cols = ['state', 'scraped_at_year']
+partition_cols = ['state', 'status_date_year']
 pq.write_to_dataset(
     table=table,
     root_path=output_dir,

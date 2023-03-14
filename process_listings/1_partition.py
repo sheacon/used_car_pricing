@@ -1,61 +1,40 @@
-import pandas as pd
-import pyarrow.parquet as pq
-import pyarrow as pa
-import os
+
 import sys
-from glob import glob
+import pyarrow as pa
+import pyarrow.parquet as pq
+from datetime import datetime
 
-file_section = int(sys.argv[1])
-file_sections = int(sys.argv[2])
+subfolder = sys.argv[1]
+#subfolder = "20"
 
-input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
+base_input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"
+input_dir = base_input_dir + subfolder
+
 output_dir = "/data/p_dsi/capstone_projects/shea/1_partitioned/"
 
-# debug
-#file_section = 20
-#file_sections = 100
-
-file_list = glob(input_dir + '*.parquet')
-files_per_section = len(file_list)//file_sections
-file_sublist = file_list[(file_section-1)*files_per_section:file_section*files_per_section]
+read_cols = ['vin', 'price', 'miles', 'year', 'make', 'model', 'trim',
+       'vehicle_type', 'body_type', 'body_subtype', 'drivetrain', 'fuel_type',
+       'engine_block', 'engine_size', 'transmission', 'doors', 'cylinders',
+       'city_mpg', 'highway_mpg', 'base_exterior_color', 'base_interior_color',
+       'is_certified', 'is_transfer', 'scraped_at', 'status_date',
+       'first_scraped_at', 'city', 'state', 'zip', 'latitude', 'longitude',
+       'dealer_type', 'seller_comments', 'currency_indicator',
+       'miles_indicator', 'photo_links_count', 'listed_options',
+       'hvf_options']
 
 # read in the parquet files
-#df = pd.concat([pd.read_parquet(f) for f in file_sublist])
-tables = [pq.read_table(file) for file in file_list]
-concatenated_table = pa.concat_tables(tables)
-df = concatenated_table.to_pandas()
+table = pq.read_table(input_dir, columns=read_cols)
 
 # year
-df = df.dropna(subset = ["scraped_at"])
-df["scraped_at_year"] = pd.to_datetime(df['scraped_at'], unit='s').dt.year
-
-# unnest hvf features
-#df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
-#df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
-#df = df.drop(["hvf_options"], axis=1)
-
-# drop other unneeded columns
-#df = df.drop(['loan_term', 'loan_apr', 'l_down_pay', 'l_emi',
-#       'f_down_pay', 'f_down_pay_per', 'f_emi', 'lease_term',
-#       'index','id', 'heading', 'msrp', 'stock_no', 'engine',
-#       'engine_measure', 'engine_aspiration', 'speeds', 'interior_color',
-#       'exterior_color', 'taxonomy_vin', 'source', 'seller_name',
-#       'car_seller_name', 'car_city', 'car_state', 'car_zip',
-#        'car_latitude', 'car_longitude', 'dom', 'dom_180',
-#        'dom_active','carfax_1_owner','carfax_clean_title'], axis=1)
-
-# unneeded
-#df = df[df["currency_indicator"] == "USD"]
-#df = df[df["miles_indicator"] == "MILES"]
-#df = df.drop(["currency_indicator","miles_indicator"], axis=1)
-
-# partition the data
-partitions = df.groupby(["state", "scraped_at_year"])
+scraped_at = pa.compute.fill_null(table["scraped_at"], "0").to_numpy()
+years = [datetime.fromtimestamp(int(ts)).year for ts in scraped_at]
+table = table.append_column("scraped_at_year", pa.array(years))
 
 # write each partition to its own directory
-for (state, scraped_at_year), partition in partitions:
-#    if scraped_at_year < 2018:
-#        continue
-    partition_path = os.path.join(output_dir, state, str(scraped_at_year))
-    os.makedirs(partition_path, exist_ok=True)
-    partition.to_parquet(f"{partition_path}/file_{file_section}.parquet")
+partition_cols = ['state', 'scraped_at_year']
+pq.write_to_dataset(
+    table=table,
+    root_path=output_dir,
+    partition_cols=partition_cols,
+    compression='snappy'
+)

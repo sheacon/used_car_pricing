@@ -13,9 +13,9 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=120G
+#SBATCH --mem-per-cpu=32G
 #SBATCH --time=03:00:00
-##SBATCH --array=0-4
+#SBATCH --array=0-4
 #SBATCH --constraint=skylake|cascadelake
 
 #### Output ####
@@ -27,7 +27,4 @@ module restore default
 
 state="TN"
 
-export ARROW_MEMORY_POOL_MAX_MEMORY=110GB
-
-#python /home/conawws1/used_car_pricing/process_listings/2_dedupe.py $state $SLURM_ARRAY_TASK_ID
-python /home/conawws1/used_car_pricing/process_listings/2_dedupe.py $state 2
+python /home/conawws1/used_car_pricing/process_listings/2_dedupe.py $state $SLURM_ARRAY_TASK_ID

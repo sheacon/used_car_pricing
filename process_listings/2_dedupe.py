@@ -26,10 +26,15 @@ df = pd.read_parquet(input_dir)
 mask = df['status_date'] == df.groupby('vin')['status_date'].transform(max)
 df = df.loc[mask]
 
+# try unnesting
+df["hvf_options"] = df["hvf_options"].apply(str)
+df["listed_options"] = df["listed_options"].apply(str)
+
+
 # unnest hvf_options
-df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
-df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
-df = df.drop(["hvf_options"], axis=1)
+#df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
+#df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
+#df = df.drop(["hvf_options"], axis=1)
 
 # write out
 output_dir = "/data/p_dsi/capstone_projects/shea/2_deduped"

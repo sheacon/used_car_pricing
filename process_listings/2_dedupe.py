@@ -24,10 +24,15 @@ input_dir = f"{base_dir}/state={state}/status_date_year={year}/"
 df = pd.read_parquet(input_dir)
 
 mask = df['status_date'] == df.groupby('vin')['status_date'].transform(max)
-deduped_df = df.loc[mask]
+df = df.loc[mask]
+
+# unnest hvf_options
+df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
+df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
+df = df.drop(["hvf_options"], axis=1)
 
 # write out
 output_dir = "/data/p_dsi/capstone_projects/shea/2_deduped"
-deduped_df.to_parquet(f"{output_dir}/{state}_{year}.parquet")
+df.to_parquet(f"{output_dir}/{state}_{year}.parquet")
 
 

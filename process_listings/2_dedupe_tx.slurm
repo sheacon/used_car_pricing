@@ -13,10 +13,10 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=100G
+#SBATCH --mem=240G
 #SBATCH --time=03:00:00
-#SBATCH --array=0-4
-#SBATCH --constraint=skylake
+#SBATCH --array=0-6
+##SBATCH --constraint=skylake|cascadelake
 
 #### Output ####
 #SBATCH --export=ALL

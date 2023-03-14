@@ -30,19 +30,19 @@ df = df.dropna(subset = ["scraped_at"])
 df["scraped_at_year"] = pd.to_datetime(df['scraped_at'], unit='s').dt.year
 
 # unnest hvf features
-df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
-df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
-df = df.drop(["hvf_options"], axis=1)
+#df["hvf_standard"] = df["hvf_options"].apply(lambda x: x[0])
+#df["hvf_optional"] = df["hvf_options"].apply(lambda x: x[1])
+#df = df.drop(["hvf_options"], axis=1)
 
 # drop other unneeded columns
-df = df.drop(['loan_term', 'loan_apr', 'l_down_pay', 'l_emi',
-       'f_down_pay', 'f_down_pay_per', 'f_emi', 'lease_term',
-       'index','id', 'heading', 'msrp', 'stock_no', 'engine',
-       'engine_measure', 'engine_aspiration', 'speeds', 'interior_color',
-       'exterior_color', 'taxonomy_vin', 'source', 'seller_name',
-       'car_seller_name', 'car_city', 'car_state', 'car_zip',
-        'car_latitude', 'car_longitude', 'dom', 'dom_180',
-        'dom_active','carfax_1_owner','carfax_clean_title'], axis=1)
+#df = df.drop(['loan_term', 'loan_apr', 'l_down_pay', 'l_emi',
+#       'f_down_pay', 'f_down_pay_per', 'f_emi', 'lease_term',
+#       'index','id', 'heading', 'msrp', 'stock_no', 'engine',
+#       'engine_measure', 'engine_aspiration', 'speeds', 'interior_color',
+#       'exterior_color', 'taxonomy_vin', 'source', 'seller_name',
+#       'car_seller_name', 'car_city', 'car_state', 'car_zip',
+#        'car_latitude', 'car_longitude', 'dom', 'dom_180',
+#        'dom_active','carfax_1_owner','carfax_clean_title'], axis=1)
 
 # unneeded
 #df = df[df["currency_indicator"] == "USD"]

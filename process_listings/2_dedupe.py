@@ -30,11 +30,10 @@ sorted_table = table.sort_by([('vin', 'ascending'), ('status_date', 'descending'
 group_cols = [f.name for f in schema if f.name not in ('vin', 'status_date')]
 grouped_table = sorted_table.groupby('vin').aggregate([
     ('status_date', 'first'),
-    *[(c, 'first') for c in group_cols],
+    *[(c, 'first') for c in group_cols]
 ])
 
 # write out
 output_dir = "/data/p_dsi/capstone_projects/shea/2_deduped/"
 output_file = f"{state}_{year}.parquet"
 pq.write_table(table, output_dir+output_file)
-)

@@ -5,6 +5,8 @@ import pyarrow.parquet as pq
 from datetime import datetime
 
 subfolder = sys.argv[1]
+
+# debug
 #subfolder = "20"
 
 base_input_dir = "/data/p_dsi/capstone_projects/shea/0_processed/full_data/"

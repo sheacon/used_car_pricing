@@ -8,7 +8,9 @@ year = int(sys.argv[2])
 
 # debug
 #state = "TN"
-#year = 0
+#year = 6
+#file = "fff11ec781f44c9ea9cbf02476f44d39-0.parquet"
+#df = pd.read_parquet(input_dir+file)
 
 # determine year
 years = ['2017','2018', '2019', '2020', '2021', '2022','2023']

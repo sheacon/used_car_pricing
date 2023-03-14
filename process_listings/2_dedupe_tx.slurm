@@ -16,7 +16,6 @@
 #SBATCH --mem=240G
 #SBATCH --time=03:00:00
 #SBATCH --array=0-6
-##SBATCH --constraint=skylake|cascadelake
 
 #### Output ####
 #SBATCH --export=ALL

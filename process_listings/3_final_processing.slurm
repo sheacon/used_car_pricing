@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #### Job Name ####
-#SBATCH --job-name=oh_dd
+##SBATCH --job-name=
 
 #### Accounts ####
 #SBATCH --account=p_dsi

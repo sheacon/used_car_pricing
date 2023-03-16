@@ -24,4 +24,4 @@
 
 module restore default
 
-python /home/conawws1/used_car_pricing/process_listings/3_final_processing.py $SLURM_ARRAY_TASK_ID
+python /home/conawws1/used_car_pricing/process_listings/3_final_listings.py $SLURM_ARRAY_TASK_ID

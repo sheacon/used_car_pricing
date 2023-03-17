@@ -2,6 +2,7 @@
 /data
 /private
 /catboost_info
+/venv
 .ipynb_checkpoints/
 *.err
 *.out

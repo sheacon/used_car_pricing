@@ -4,6 +4,8 @@
 /catboost_info
 /venv
 .ipynb_checkpoints/
+metastore_db/
+derby.log
 *.err
 *.out
 *.parquet

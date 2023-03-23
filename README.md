@@ -1,5 +1,4 @@
 - [Project Board](https://github.com/users/sheacon/projects/3)
-- [Schedule Advisor Meeting](https://calendly.com/jesse-blocher/)
 - [Brightspace](https://brightspace.vanderbilt.edu/d2l/home/396809)
 - [Paper](https://docs.google.com/document/d/1Rqfu64MBFEI3frhnp-cyMU7Ve3UuV4bBk5H0kExIkcc/edit?usp=sharing)
 - [Presentation](https://docs.google.com/presentation/d/18SNFP1NFWWIGx5ASOnxBzGQyNdlNc7WuxuJAMPCw2KM/edit?usp=sharing)

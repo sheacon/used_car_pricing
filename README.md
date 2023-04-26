@@ -8,4 +8,5 @@ In addition, we target multiple price quantiles to provide a spread of potential
 
 Our approach allows the user to make informed decisions and pricing adjustments as needed at any stage of the acquisition, reconditioning, and sales processes.
 
-![pva](https://user-images.githubusercontent.com/89158603/234464962-13b795bc-be08-4880-8822-a4c6a5897b20.png)
+<img width="494" alt="Screenshot 2023-04-25 at 10 47 52 PM" src="https://user-images.githubusercontent.com/89158603/234465163-f050981d-6489-404a-8e3c-6d80e1ce0de5.png">
+
